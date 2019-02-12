@@ -2,6 +2,7 @@
 
 1. Hello World
     - Atom is cool stuff
+    - what is an interpreter? 
 2. Variables
     - what are comments?
 3. Control Structures and functions
