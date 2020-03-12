@@ -1,0 +1,65 @@
+#Expyriment 0.9.0 (Python 3.7.3), .xpe-file, coding: UTF-8
+#date: Tue Jul 02 2019 00:02:26
+#sha1: None
+#modules: 
+#display: size=(1366, 768), window_mode=False, open_gl=2
+#os: uname_result(system='Linux', node='nathan', release='5.1.12-300.fc30.x86_64', version='#1 SMP Wed Jun 19 15:19:49 UTC 2019', machine='x86_64', processor='x86_64')
+Time,Type,Event,Value,Detail,Detail2
+12511,design,log,
+#design: #exp: Simon Task
+#design: #dvn: pairing,position,color,key,reaction_time
+#design: block_cnt,block_id,block_pairing,trial_cnt,trial_id,color,position
+#design: 0,0,red_left_green_right,0,0,red,left
+#design: 0,0,red_left_green_right,1,7,green,right
+#design: 0,0,red_left_green_right,2,1,red,left
+#design: 0,0,red_left_green_right,3,3,green,left
+#design: 0,0,red_left_green_right,4,5,red,right
+#design: 0,0,red_left_green_right,5,6,green,right
+#design: 0,0,red_left_green_right,6,4,red,right
+#design: 0,0,red_left_green_right,7,2,green,left
+#design: 1,1,red_right_green_left,0,1,red,left
+#design: 1,1,red_right_green_left,1,0,red,left
+#design: 1,1,red_right_green_left,2,3,green,left
+#design: 1,1,red_right_green_left,3,6,green,right
+#design: 1,1,red_right_green_left,4,2,green,left
+#design: 1,1,red_right_green_left,5,5,red,right
+#design: 1,1,red_right_green_left,6,4,red,right
+#design: 1,1,red_right_green_left,7,7,green,right
+12511,design,logged,
+12511,Experiment,started
+12544,Stimulus,presented,10
+102922,Keyboard,received,32,wait
+102922,Stimulus,presented,9
+103925,Stimulus,presented,0
+104912,Keyboard,received,115,wait
+104913,Stimulus,presented,9
+105914,Stimulus,presented,3
+106309,Keyboard,received,108,wait
+106310,Stimulus,presented,9
+107311,Stimulus,presented,0
+107583,Keyboard,received,115,wait
+107583,Stimulus,presented,9
+108584,Stimulus,presented,1
+108935,Keyboard,received,115,wait
+108935,Stimulus,presented,9
+109936,Stimulus,presented,2
+110132,Keyboard,received,108,wait
+110132,Stimulus,presented,9
+111132,Stimulus,presented,3
+111415,Keyboard,received,108,wait
+111415,Stimulus,presented,9
+112416,Stimulus,presented,2
+112593,Keyboard,received,108,wait
+112593,Stimulus,presented,9
+113594,Stimulus,presented,1
+113777,Keyboard,received,108,wait
+113805,Stimulus,presented,11
+116815,Keyboard,received,108,wait
+116816,Stimulus,presented,9
+117818,Stimulus,presented,4
+118053,Experiment,paused
+118056,Stimulus,presented,12
+119202,Keyboard,received,b'y',wait_char
+119202,Experiment,ended
+119203,Data,saved
+119205,Stimulus,presented,12

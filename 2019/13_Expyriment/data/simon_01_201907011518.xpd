@@ -1,0 +1,39 @@
+#Expyriment 0.9.0 (Python 3.7.3), .xpd-file, coding: UTF-8
+#date: Mon Jul 01 2019 15:18:18
+#--EXPERIMENT INFO
+#e mainfile: simon.py
+#e sha1: None
+#e modules: 
+#e Experiment: Simon Task
+#e no between subject factors
+#e Block 0: unnamed
+#e     block factors: pairing = red_is_left
+#e     n trials: 8
+#e     trial factors: position = [left, right]
+#e                    color = [green, red]
+#e                    
+#e Block 1: unnamed
+#e     block factors: pairing = red_is_right
+#e     n trials: 8
+#e     trial factors: position = [left, right]
+#e                    color = [green, red]
+#e                    
+#--SUBJECT INFO
+#s id: 1
+subject_id,pairing,position,color,key,reaction_time
+1,red_is_left,left,red,left,960
+1,red_is_left,right,red,left,536
+1,red_is_left,right,red,left,627
+1,red_is_left,left,green,right,342
+1,red_is_left,left,red,left,545
+1,red_is_left,right,green,right,425
+1,red_is_left,right,green,right,395
+1,red_is_left,left,green,left,3218
+1,red_is_right,right,green,right,1
+1,red_is_right,left,green,left,1
+1,red_is_right,left,red,right,1
+1,red_is_right,right,red,left,3
+1,red_is_right,right,red,right,2
+1,red_is_right,left,red,right,1
+1,red_is_right,left,green,right,3
+1,red_is_right,right,green,right,2

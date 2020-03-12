@@ -1,0 +1,38 @@
+What do you think will be the output of this?  ``` print(1,2,3,4,sep='*') ```
+ANSWER: 
+
+Suppose x is defined as follows:  x = [     'a',     'b',     {         'foo': 1,         'bar':         {             'x' : 10,             'y' : 20,             'z' : 30         },         'baz': 3     },     'c',     'd' ] What is the expression involving x that accesses the value 30?  x[2]['bar']['z']   This isn’t the only possibility, of course. For example, x[-3]['bar']['z'] would also work. But the answer above is probably the most obvious.
+ANSWER: 
+
+When iterating over an object returned from csv.reader(), what is returned with each iteration?
+A) The full line of the file as a string
+B) The row data as a list
+C) The column data as a list
+D) The individual value data that is separated by the delimiter
+ANSWER: B
+
+What does the first row in a .csv file typically contain?
+A) Notes about the table data
+B) The source of the data
+C) The column names of the data
+ANSWER: C
+
+What  can be a delimiter in a .csv file?
+A) Any character such as the comma (,) or tab (\t) that is used to separate the row data
+B) Any character such as the comma (,) or tab (\t) that is used to separate the column data.
+C) Delimiters are not used in separated value files
+ANSWER: B
+
+What does the readlines() method return?
+A) str
+B) list of integers
+C) a list of lines
+D) a list of single characters
+ANSWER: C
+
+Which of the following statements are true?
+A) When you open a file for reading, if the file does not exist, an error occurs. 
+B) When you open a file for writing, if the file does not exist, an error occurs.
+C) When you open a file for reading, if the file does not exist, the program will open an empty file.
+D)  When you open a file for writing, if the file exists, the existing file is overwritten with the new file.
+ANSWER: A,D

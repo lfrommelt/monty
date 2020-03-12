@@ -1,0 +1,41 @@
+1.1 - 5 points
+1.2 - 5 points
+
+2.1 - 15 points: 
+
+    1. - 4 points
+    2. - 3 points
+    3. - 4 points
+    4. - 4 points
+
+2.2 - 15 points: 
+
+    1. - 5 points 
+    2. - 5 points
+    3. - 5 points
+
+Wichtig ist vielleicht, dass ich nicht erwarte, dass sie das maximale Element automatisch ermitteln (mit for-loop etc).
+Ich würde es auch akzeptieren, wenn sie einfach alle Elemente printen wie in Hint 1 vorgeschlagen und dann visuell das richtige Element ermitteln.
+
+3.1 - 20 points:
+
+Wenn die Funktion wie beschrieben funktioniert, würde ich alle Punkte geben und nur Style Points bei Bedarf abziehen.
+Wenn das Verschieben funktioniert, aber mit den Rändern nicht richtig umgegangen wird ("z" + 1 wird nicht zu "a"), maximal 15 Punkte.
+Bei nicht funktionierendem Code maximal 10 Punkte.
+
+3.2 - 30 points:
+
+    1. - 6 points
+    2. - 6 points
+    3. - 6 points
+    4. - 6 points
+
+Wieder gilt, dass das maximale Element nicht zwingend automatisch bestimmt werden muss, sondern auch visuell bestimmt werden kann wie in der Musterlösung.
+
+4. - 10 points
+    
+    1. - 2 points
+    2. - 4 points
+    3. - 4 points
+
+

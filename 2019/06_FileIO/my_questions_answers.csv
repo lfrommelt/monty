@@ -1,0 +1,7 @@
+question,answer a,answer b,answer c,correct
+What does JSON stand for?,a. Just Some Other Notation,b. Java Style Operation Notes,c. JavaScript Object Notation,c
+"When iterating over an object returned from csv.reader(), what is returned with each iteration?",a. The full line of the file as a string,b. The row data as a list,c. The column data as a list,b
+What does the first row in a .csv file typically contain?,a. Notes about the table data,b. The source of the data,c. The column names of the data,c
+What can be a delimiter in a .csv file?,a. Any character such as the comma or tab that is used to separate the row data,b. Any character such as the comma or tab that is used to separate the column data.,c. Delimiters are not used in separated value files ,b
+What does the readlines() method return?,a. str ,b. a list of lines,c. a list of single characters,b
+Which of the following statements is true?,"a. When you open a file for writing, if the file does not exist an error occurs.",b. When you open a file for reading if the file does not exist the program will open an empty file.,c. When you open a file for writing if the file exists the existing file is overwritten with the new file.,c

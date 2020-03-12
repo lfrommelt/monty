@@ -1,0 +1,494 @@
+\input{templates/ex_template.tex}
+
+\title{BPP Exercise 7 -- Debugging and Good Practises}
+
+% {YYYY}{MM}{DD}
+\setdate{2019}{05}{26}
+
+\begin{document}
+
+
+\section{Recap: Files (10 points)}
+
+Write a short program that uses the \texttt{random} module to generate a sequence of 1000 random digits and writes it to a file \texttt{randomness.txt}. The output should look something like this:
+
+\begin{outputcode}
+9380734110394013924981 ...
+\end{outputcode}
+
+\noindent If you are unsure about how to work with files, have a look at the first part of the lecture from week 6 again.
+
+\vspace{1em}
+
+\begin{solution}
+    \begin{pythoncode}
+from random import randint
+
+with open("randomness.txt", "w") as randomness_file:
+    randomness_file.write("".join([str(randint(0, 9)) for _ in range(1000)]))
+    \end{pythoncode}
+\end{solution}
+
+\section{Debugging (35 points)}
+
+\subsection{Fixing Error Messages}
+
+The following program has a couple of mistakes. When you run it, it will produce an error.
+
+\vspace{1em}
+
+1. Explain what the error message means and why it occurs
+
+2. Fix the error
+
+\vspace{1em}
+
+\noindent However, since there are multiple errors, you will get a new error message. Keep fixing them until all errors are gone (always explain what the error message means and what the mistake was). Be careful to stick to the intended functionality of the program as much as possible, which you can deduce from the comments.
+
+\vspace{1em}
+
+\noindent You are of course allowed to research on the internet if you are unsure what the error messages mean.
+
+\begin{pythoncode}
+fruit_list = ["apple", "banana", "orange"]
+
+# let user add their own fruit
+user_fruit = input("Please name a fruit: ")
+fruit_Iist.append(user_fruit)
+
+# print each fruit in a line
+for fruit in fruit_list:
+    print("This is a cool fruit: " fruit)
+
+# print explicitly the fruit that was entered by the user
+last_fruit_index = len(fruits)
+print("You especially like: {:.4f}".format(fruits[last_fruit_index]))
+\end{pythoncode}
+
+\begin{solution}
+    \begin{enumerate}
+        \item \textbf{SyntaxError in line 9} \\
+              This means there was some syntactical, i.e. "grammatical" mistake. In this case, a "\texttt{+}" was missing between two string that were supposed to concatenated.
+        \item \textbf{NameErrors in line 3, 12 and 13} \\
+              A NameError means that Python could not find the variable that was referenced. In line 3, it is because there is a typo - \texttt{fruit\_Iist} should be \texttt{fruit\_list}. In lines 12 and 13, it is because we the programmer confused the name \texttt{fruit\_list} with fruits.
+        \item \textbf{IndexError in line 13} \\
+              An IndexError means that the programmer tried to access an index that does not exist. In this case, we get some more Information: \texttt{list index out of range}. This means that the index that was used was too large for the list. Here, this is because \texttt{len(fruit\_list)} is 4, but the last index is 3 (since indices start at 0).
+        \item \textbf{ValueError in line 13} \\
+              A ValueError means that a variable contains an invalid value for a certain operation. Here, it is because the formatting placeholder \texttt{\{:.4f\}}, which cuts off a floating point number after 4 digits after the decimal point, does not make sense for use with strings such as our fruit name.
+    \end{enumerate}
+
+\noindent \textbf{The fixed code:}
+
+    \begin{pythoncode}
+fruit_list = ["apple", "banana", "orange"]
+
+# let user add their own fruit
+user_fruit = input("Please name a fruit: ")
+fruit_list.append(user_fruit)
+
+# print each fruit in a line
+for fruit in fruit_list:
+    print("This is a cool fruit: " + fruit)
+
+# print explicitly the fruit that was entered by the user
+last_fruit_index = len(fruit_list) - 1
+print("You especially like: {}".format(fruit_list[last_fruit_index]))
+    \end{pythoncode}
+\end{solution}
+
+\subsection{Finding the Logical Error}
+
+These programs somehow don't do what they are supposed to. Explain what the error is, why it occurs and then fix it!
+
+\vspace{1em}
+
+\noindent 1. This program is supposed to read in some numbers and compute their average
+
+\begin{pythoncode}
+def read_n_values(n):
+    print("Please enter", n, "values.")
+    values = []
+
+    for i in range(n):
+        values.append(input("Value {}: ".format(i + 1)))
+
+    return values
+
+def compute_average(values):
+    # set sum to first value of list
+    total_sum = values[0]
+
+    # iterate over remaining values and add them up
+    for value in values[1:]:
+        total_sum += value
+
+    return float(total_sum) / len(values)
+
+values = read_n_values(3)
+print("Average:", compute_average(values))
+\end{pythoncode}
+
+Output:
+
+\begin{outputcode}
+Please enter 3 values.
+Value 1: 3
+Value 2: 4
+Value 3: 5
+Average: 115.0
+\end{outputcode}
+
+\begin{solution}
+    The problem here is that the user input in not converted to a number type, but instead stored as strings. This means that in the \texttt{compute\_average} function, we do not actually \textit{sum} the values, but \textit{concatenate} them. Only then is it converted to \texttt{float}, which of course results in a much larger number.
+
+    \vspace{1em}
+
+    \noindent \textbf{The fixed \texttt{read\_n\_values} function:}
+
+    \begin{pythoncode}
+def read_n_values(n):
+    print("Please enter", n, "values.")
+    values = []
+
+    for i in range(n):
+        values.append(float(input("Value {}: ".format(i + 1))))
+
+    return values
+    \end{pythoncode}
+\end{solution}
+
+\noindent 2. This program is supposed to write some lines of text about colors to a file
+
+\begin{pythoncode}
+def write_to_file(string, filename):
+    """function for writing a string to a file"""
+    with open(filename, "w") as f:
+        f.write(string)
+
+template    = "{} is the best color"
+colors      = ["orange", "blue", "green"]
+
+# write a line for each color to the file
+for color in colors:
+    write_to_file(template.format(color), "best_colors.txt")
+\end{pythoncode}
+
+\noindent Contents of file \texttt{best\_colors.txt} after running the code:
+
+\begin{outputcode}
+green is the best color
+\end{outputcode}
+
+\begin{solution}
+    The problem is that the file that is written to is re-opened and closed in every iteration. This is because the \texttt{with}-statement that opens the file is used \textit{inside} a function that is called inside the loop. Because of the file mode "\texttt{w}", the previous contents of the file are overwritten, leaving only the output of the last iteration.
+
+    \vspace{1em}
+
+    \noindent \textbf{The fixed code:}
+
+    \begin{pythoncode}
+def write_to_file(string, output_file):
+    """function for writing a string to a file"""
+    output_file.write(string)
+
+template    = "{} is the best color"
+colors      = ["orange", "blue", "green"]
+
+# write a line for each color to the file
+with open("best_colors.txt", "w") as colors_file:
+    for color in colors:
+        write_to_file(template.format(color), colors_file)
+    \end{pythoncode}
+
+\end{solution}
+
+
+\section{Style (35 points)}
+
+This exercise is all about \textit{style}. Make sure everything you write is correct regarding
+
+\begin{itemize}
+    \item general code structure
+    \item comments \& docstrings
+    \item white spaces \& linebreaks
+    \item naming conventions
+\end{itemize}
+
+\noindent as was discussed in the lecture.
+
+\subsection{Correcting Style}
+
+The programmer of this code clearly had no clue about good style whatsoever. Figure out what on earth this mess of a program does and clean it up!
+
+\begin{pythoncode}
+why=None
+what=why
+while what is why:
+    try:
+        what=int (input ("what? " ) )
+    except ValueError :
+        print(   "no.")
+def abc(z):
+    if(z<=1):return False
+    for(x)in(range(2  ,int(z**.5)+1))  :
+        if z  %  x==0:
+            return False
+    return True
+for who   in range (1 ,what+   1):
+    how=abc (who)
+    if how :
+        print("{}???".format(who),":)")
+    else:
+        print ("{}???" . format(who) , ":(")
+
+\end{pythoncode}
+
+\begin{solution}
+    \begin{pythoncode}
+"""This program will check all integers up to a specified limit for primality"""
+max_number = None
+
+# letting user input a number up to which to check
+while max_number is None:
+    try:
+        # try to convert user input to integer
+        max_number = int(input("Up to which number would you like to check? "))
+    except ValueError:
+        # if input is invalid, let them try again
+        print("Please enter an integer.")
+
+def is_prime(n):
+    """Checks if the argument n is a prime number. Returns True if it is, False otherwise."""
+    # 1 is not prime by definition
+    if n <= 1:
+        return False
+
+    # check up to sqrt(n) + 1 if there exists a number that divides n
+    for divisor in range(2, int(n ** 0.5) + 1):
+        if n % divisor == 0:
+            # if divisor is found, n is not prime
+            return False
+
+    # if all checks up to here fail, n is prime
+    return True
+
+# check all numbers up to max_number and print result
+for n in range(1, max_number + 1):
+    if is_prime(n):
+        print(n, "is a prime number!")
+    else:
+        print(n, "is NOT a prime number.")
+    \end{pythoncode}
+
+\end{solution}
+
+
+\subsection{Implementing with Good Style}
+
+Implement the given pseudocode in Python. It is already quite detailed, so you should never have to stray too far from it. However, the main focus of this assignment is of course on \textit{style}. In particular, make sure your code is well documented!
+
+\vspace{1em}
+
+\noindent \textbf{Counting Sort}
+
+\vspace{1em}
+
+\noindent Couting Sort is a sorting algorithm, which means it sorts a list of numbers $L$ from smallest to largest. Here, we restrict ourselves to positive integers (including $0$) that have a known maximum value $m$.
+
+\vspace{1em}
+
+\noindent \texttt{def counting\_sort($L$, $m$):}
+
+\begin{enumerate}
+    \item \texttt{initialize $S$ as an empty list}
+    \item \texttt{initialize a list $C$ of length $m + 1$ with every value being $0$}
+    \item \texttt{for every value $v$ in $L$ do:}
+    \item \hspace{2em} \texttt{$C_v \leftarrow C_v + 1$}
+    \item \texttt{for every value $c$ at index $i$ in $C$ do:}
+    \item \hspace{2em} \texttt{do $c$ times:}
+    \item \hspace{4em} \texttt{append the value $i$ to $S$}
+    \item \texttt{return $S$}
+\end{enumerate}
+
+\noindent \textbf{Note:} $C_v \leftarrow C_v + 1$ means assign the value $C_v + 1$ to $C_v$, i.e. increment it by one. $C_v$ is the value of the element at index $v$ in list $C$. This notation might be a bit unfamiliar, but it makes it clear that we want to \textit{assign} a value, not check equality, and is quite common in pseudocode.
+
+\vspace{1em}
+
+\noindent Test your implementation with the the list \texttt{[4, 9, 2, 4, 1, 1, 5, 1, 0, 0, 9]}, which has a maximum value of \texttt{9}.
+
+\vspace{1em}
+
+\begin{solution}
+    \begin{pythoncode}
+def counting_sort(numbers, max_value):
+    """Sorts a list of integers between 0 and a known maximum value.
+
+    Args:
+        numbers: list containing the integers to sort
+        max_value: known upper bound for elements of numbers
+
+    Return:
+        the sorted list
+    """
+    # initialize result and counting list
+    sorted_numbers = []
+    counting_list = [0] * (max_value + 1)
+
+    # count how often each value occurs
+    # counting_list keeps track of all counts
+    for value in numbers:
+        counting_list[value] += 1
+
+    # now build up the sorted list from the counter
+    # indices of counting_list correspond to values in the original one,
+    # value of counting_list correspond to how often it occurred
+    for value, amount in enumerate(counting_list):
+        for _ in range(amount):
+            sorted_numbers.append(value)
+
+    return sorted_numbers
+
+example_list = [4, 9, 2, 4, 1, 1, 5, 1, 0, 0, 9]
+print(counting_sort[example_list])
+    \end{pythoncode}
+\end{solution}
+
+
+\section{Thinking Outside the Box (20 points)}
+
+\subsection{Rewriting \texttt{range(len())}}
+
+In Python, we need to iterate over lists (or tuples, dictionaries, etc.) all the time. Often times, we do not care about the \textit{index} of the element at all, but are only interested in the \textit{value} itself. In your homework submissions, we have commonly seen something like this:
+
+\begin{pythoncode}
+words_to_print = ["a", "b", "c"]
+
+for i in range(len(words_to_print)):
+    print(words_to_print[i])
+\end{pythoncode}
+
+\noindent This works, of course, but it is taking a detour that can be avoided. Instead, what we can do is this:
+
+\begin{pythoncode}
+for word in words_to_print:
+    print(word)
+\end{pythoncode}
+
+\noindent This reads quite intuitively as "\textit{for every} \texttt{word} \textit{in} \texttt{words\_to\_print}\textit{, do this:}"
+
+\vspace{1em}
+
+\noindent Rewrite the following programs \textbf{without} \texttt{range(len())}:
+
+\vspace{1em}
+
+\noindent \textbf{First Program}
+
+\begin{pythoncode}
+# summing up a list of numbers
+numbers = [1, -1, 3, 4, -5, 8]
+sum_numbers = 0
+
+for i in range(len(numbers)):
+    sum_numbers += numbers[i]
+\end{pythoncode}
+
+\noindent Value of \texttt{sum\_numbers} afterwards:
+
+\begin{outputcode}
+10
+\end{outputcode}
+
+\begin{solution}
+    \begin{pythoncode}
+# summing up a list of numbers
+numbers = [1, -1, 3, 4, -5, 8]
+sum_numbers = 0
+
+for number in numbers:
+    sum_numbers += number
+    \end{pythoncode}
+\end{solution}
+
+\noindent \textbf{Second Program}
+
+\begin{pythoncode}
+# caesar encryption
+alphabet    = "abcdefghijklmnopqrstuvwxyz"
+key         = 3
+message     = "bananas"
+encrypted   = ""
+
+for i in range(len(message)):
+    new_index = (alphabet.find(message[i]) + key) % 26
+    encrypted += alphabet[new_index]
+\end{pythoncode}
+
+\noindent Value of \texttt{encrypted} afterwards:
+
+\begin{outputcode}
+edqdqdv
+\end{outputcode}
+
+\begin{solution}
+    \begin{pythoncode}
+# caesar encryption
+alphabet    = "abcdefghijklmnopqrstuvwxyz"
+key         = 3
+message     = "bananas"
+encrypted   = ""
+
+for char in message:
+    new_index = (alphabet.find(char) + key) % 26
+    encrypted += alphabet[new_index]
+    \end{pythoncode}
+\end{solution}
+
+\subsection{Using \texttt{enumerate()}}
+
+Sometimes, you actually \textit{need} the index. In those cases, it is recommended to use \texttt{enumerate(some\_list)}. How exactly it works is beyond the scope of this exercise, it is enough to know that it provides you with \textbf{two} values in each iteration: the \textit{index} of the element and the \textit{value} of it. Have a look at this example:
+
+\begin{pythoncode}
+some_list = ["a", "b", "c"]
+
+for index, value in enumerate(some_list):
+        print("Index:", index, "Value:", value)
+\end{pythoncode}
+
+\begin{outputcode}
+Index: 0 Value: a
+Index: 1 Value: b
+Index: 2 Value: c
+\end{outputcode}
+
+\noindent Using \texttt{enumerate}, write short programs that do the following:
+
+\vspace{1em}
+
+1. Multiply each element in a list of numbers with its position
+
+\vspace{1em}
+
+\begin{solution}
+    \begin{pythoncode}
+numbers = [3, 5, 1, -1]
+
+# multiply each element with its position
+result = [index * value for index, value in enumerate(numbers)]
+    \end{pythoncode}
+\end{solution}
+
+2. Compute the dot-product (sum of the element-wise multiplication) of two equally long lists of numbers
+
+\vspace{1em}
+
+\begin{solution}
+    \begin{pythoncode}
+vector_1 = [2, 4, 5, 1]
+vector_2 = [1, 3, 4, 2]
+
+dot_product = sum([value_1 * vector_2[index] for index, value_1 in enumerate(vector_1)])
+    \end{pythoncode}
+\end{solution}
+
+\end{document}

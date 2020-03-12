@@ -1,0 +1,315 @@
+\input{templates/ex_template.tex}
+
+\title{BPP Exercise 11 -- Pythonic Programming}
+
+% {YYYY}{MM}{DD}
+\setdate{2019}{06}{23}
+
+\begin{document}
+
+\section*{About this Exercise Sheet}
+
+Because this sheet is all about pythonic programming, we will not only take {\it code style} into account when grading, but also {\it elegance} and {\it efficiency}. For many tasks on this sheet (probably not all), the solution is quite short, but may nonetheless take some time and effort to find!
+
+
+\section{Warm Up: Using Someone Else's Code (30 points)}
+
+Very often, you will find that someone has already implemented some parts you need for you program for you - you just need to assemble the puzzle. Implement the pseudocode given below using functions that you can import from the file {\tt chaos\_game.py}. Take a look at their documentation to learn how to use them.
+
+\vspace{1em}
+
+\noindent {\bf Chaos Game}
+
+\begin{enumerate}
+    \item {\tt Initialize a blank canvas of size 800x800 pixels}
+    \item {\tt Draw an equilateral triangle $\Delta$ onto the canvas}
+    \item {\tt Draw a point $P$ at a random location on the canvas}
+    \item {\tt Do 10,000 times:}
+    \item \hspace{2em}{\tt Select a random corner $C$ of $\Delta$}
+    \item \hspace{2em}{\tt Create a new point $P'$ that lies halfway between $C$ and $P$}
+    \item \hspace{2em}{\tt Draw $P'$ onto the canvas}
+    \item \hspace{2em}{\tt $P \leftarrow P'$}
+\end{enumerate}
+
+\begin{solution}
+    \begin{pythoncode}
+from chaos_game import *
+
+def run_chaos_game():
+    # initialize canvas with triangle
+    canvas = initialize(800)
+    triangle = draw_triangle(canvas)
+
+    # compute first point
+    p = random_point(canvas)
+    draw_point(p, canvas)
+
+    for i in range(10000):
+        # choose random corner and draw halfway point
+        corner = random_corner(triangle)
+        p_new = get_halfway_point(p, corner)
+        draw_point(p_new, canvas)
+
+        # continue with the newly drawn point
+        p = p_new
+
+
+if __name__ == "__main__":
+    run_chaos_game()
+
+    # wait until user closes application
+    mainloop()
+    \end{pythoncode}
+\end{solution}
+
+\noindent {\bf Bonus Question:} Can you explain the result?
+
+\section{Pythonification (20 points)}
+
+The following code works, but has some less-than-ideal approaches to solving the given problem. Rewrite the program to be {\it pythonic} (w.r.t. the topics discussed in the lecture). As usual, be careful not to change the functionality of the program.
+
+\begin{pythoncode}
+import csv
+
+# read in list of names, discard the header
+with open("names.csv") as names_file:
+    names = []
+    reader = csv.reader(names_file)
+
+    for i, name in enumerate(reader):
+        if i != 0:
+            names.append(name)
+
+# convert to ages to int
+for i in range(len(names)):
+    names[i][2] = int(names[i][2])
+
+# sort by age
+def bubblesort_names(names):
+    done = False
+
+    while not done:
+        done = True
+
+        for i, name in enumerate(names[:-1]):
+            if names[i][2] > names[i+1][2]:
+                names[i], names[i+1] = names[i+1], names[i]
+                done = False
+
+bubblesort_names(names)
+
+# print names in a nice way:
+for name in names:
+    first_name = name[1]
+    last_name = name[0]
+    age = name[2]
+
+    print(first_name + " " + last_name + " is " + str(age) + " years old.")
+\end{pythoncode}
+
+\begin{solution}
+    \begin{pythoncode}
+import csv
+
+# read in list of names, discard the header
+with open("names.csv") as names_file:
+    # we can use unpacking here
+    _, names = csv.reader(names_file)
+
+# convert to ages to int
+# no need to take the detour of range(len(...))
+for name in names:
+    name[2] = int(name[2])
+
+# sort by age
+# we can use sorted with custom key function
+names = sorted(names, key=lambda name: name[2])
+
+# print names in a nice way:
+for name in names:
+    # unpacking again + str.format
+    print("{} {} is {} years old".format(*name))
+    \end{pythoncode}
+\end{solution}
+
+
+\section{Lazy Evaluation (30 points)}
+
+\subsection{Theory}
+
+\begin{enumerate}
+    \item Explain what the term {\it lazy evaluation} refers to in Python.
+
+    \vspace{1em}
+    \begin{solution}
+        {\it Lazy Evaluation} relates to the idea that when iterating over a sequence of values, it is often not necessary to create the entire sequence in advance. Instead, it can be generated on the fly.
+    \end{solution}
+    \item In which situations does lazy evaluation provide an advantage? Give an example where it does and one where it does not. Can you think of reasons why it might actually be less efficient sometimes?
+
+    \vspace{1em}
+    \begin{solution}
+        Lazy evaluation provides an advante when iterating over a large sequence of values, of which we only ever need one at a time. Creating e.g. a list of these values in advance would consume memory, which can be avoided by a lazy generator. It is usually not a good idea to use lazy objects if we need to iterate over them multiple times. In that case, we would have to recompute each value many times and it might be more efficient to just store them in a list in advance.
+    \end{solution}
+    \item Provide two examples of objects that use lazy evaluation. Explain their purpose. Describe how you could implement them without using lazy evaluation (you do not actually need to write code here).
+
+        \vspace{1em}
+
+        {\bf Example:} A {\tt range(start, stop, step)} object could be implemented as a list of numbers ranging from {\tt start} to {\tt stop} in increments of {\tt step}, e.g. {\tt range(0, 5, 1)} could be {\tt [0, 1, 2, 3, 4]}.
+
+        \vspace{1em}
+        \begin{solution}
+            {\bf Generators} are very flexible lazy objects, as you can define the sequence they will generate. They could also be implemented as a {\tt for} loop that populates a list with the values the generator would have produced.
+        \end{solution}
+\end{enumerate}
+
+\subsection{Practice}
+
+\begin{enumerate}
+    \item Write a generator expression that generates the values $f(1)$, $f(4)$, $f(7)$, $f(10)$ and $f(13)$ according to the formula $f(x) = 2 * e^{-\sqrt x}$
+
+    \vspace{1em}
+    \begin{solution}
+        \begin{pythoncode}
+from math import exp, sqrt
+
+sequence = (2 * exp(-sqrt(x)) for x in range(1, 14, 3))
+        \end{pythoncode}
+    \end{solution}
+
+    \item Using generator expressions and the built-in function {\tt sum}, write a single line of code that adds up the prices of all the cars in the list (see below) and prints the result.
+
+    \begin{pythoncode}
+class Car:
+    def __init__(self, brand, price):
+        self.brand = brand
+        self.price = price
+
+all_cars = [Car("SuperCar3000", 10_000), Car("Speedmaster", 12_000),
+            Car("SuperCar3000", 300), Car("SuperCar3000", 6_500),
+            Car("Drivinator", 25_000)]
+
+# YOUR LINE OF CODE HERE
+    \end{pythoncode}
+
+    \begin{solution}
+        \begin{pythoncode}
+print(sum(car.price for car in all_cars))
+        \end{pythoncode}
+    \end{solution}
+
+    \item Adapt your solution from before to now only add up those cars that are of brand "SuperCar3000".
+
+    \vspace{1em}
+    \begin{solution}
+        \begin{pythoncode}
+print(sum(car.price for car in all_cars if car.brand == "SuperCar3000"))
+        \end{pythoncode}
+    \end{solution}
+
+    \item Using {\tt zip} and the idea of unpacking in function calls, write a single line that {\it unzips} two lists that have been zipped together. Explain in a comment why your code works.
+
+    \begin{pythoncode}
+list_1 = [1, 2, 3, 4]
+list_2 = ["a", "b", "c", "d"]
+
+zipped = list(zip(list_1, list_2))
+# [(1, "a"), (2, "b"), (3, "c"), (4, "d")]
+
+# should be equal to list_1, list_2
+unzipped_1, unzipped_2 = # YOUR CODE HERE
+    \end{pythoncode}
+
+    \begin{solution}
+        \begin{pythoncode}
+unzipped_1, unzipped_2 = zip(*zipped)
+        \end{pythoncode}
+
+        This works because the zipped list is itself a list of tuples. If we unpack this list with the {\tt *}, we supply {\tt zip} with (in this case) 4 individual lists that each contain 2 elements. Zipping these together, we receive 2 lists of 4 elements, which are the unzipped lists.
+    \end{solution}
+\end{enumerate}
+
+
+\section{Thinking Outside the Box: {\tt map} and {\tt filter} (20 points)}
+
+\subsection{{\tt map}}
+
+{\tt map} takes as arguments a function (usually a {\tt lambda} function) and an iterable. It will return a generator that applies the function to all elements of the iterable.
+
+\begin{enumerate}
+    \item Write a short program using {\tt map} and {\tt lambda} functions that squares, multiplies by 4 and then adds 42 to each element in a list. Print the result.
+
+    \vspace{1em}
+    \begin{solution}
+        \begin{pythoncode}
+some_list = [1, 2, 3, 4]
+result = list(map(lambda x: 4 * x**2 + 42, some_list))
+
+print(result)
+        \end{pythoncode}
+    \end{solution}
+
+    \item Write a short program using {\tt map} (and whatever else you need) that creates a tuple containing the sums of all the sublists of the following list.
+
+    \begin{pythoncode}
+some_list = [[42, 5, 2], [-1, 0, 0, 20, 100], [1], [], [42, 42]]
+    \end{pythoncode}
+
+    {\bf Intended output:}
+
+    \begin{outputcode}
+(49, 119, 1, 0, 84)
+    \end{outputcode}
+
+    \begin{solution}
+        \begin{pythoncode}
+sums = tuple(map(sum, some_list))
+print(sums)
+        \end{pythoncode}
+    \end{solution}
+\end{enumerate}
+
+\subsection{{\tt filter}}
+
+{\tt filter} takes as arguments a function and an iterable. It will return a generator that only contains those elements of the iterable for which the function returns {\tt True}.
+
+\begin{enumerate}
+    \item Write a short program using {\tt filter} that only keeps those values in a list of positive integers (you may assume that to be the case) that are {\bf not prime}. You may go back to the example solution of {\it exercise sheet 3} and use the given function for checking primality.
+
+    \vspace{1em}
+    \begin{solution}
+        \begin{pythoncode}
+# using is_prime from sheet 3
+from prime_checker import is_prime
+
+some_list = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+
+not_prime = list(filter(lambda x: not is_prime(x)), some_list)
+
+print(not_prime)
+        \end{pythoncode}
+    \end{solution}
+
+    \item Write a short program using both {\tt filter} {\bf and} {\tt map} that takes a list like this
+
+    \begin{pythoncode}
+some_list = ["not a list", [3, 4, 1], "also not a list", [42, "not a number"],
+             [5, 7], [3, "not a number", 6]]
+    \end{pythoncode}
+
+    and filters out elements that are not a list {\bf and} entire sublists that contain the string {\tt "not a number"}. It then should compute the sums of the remaining sublists like in 4.1.2.
+
+    \vspace{1em}
+
+    {\bf Hint 1:} Remember that {\tt type} gives you the type of an object.
+
+    \begin{solution}
+        \begin{pythoncode}
+filtered = filter(lambda x: type(x) == list, some_list)
+filtered = filter(lambda x: "not a number" not in x, filtered)
+
+print(list(map(sum, filtered)))
+        \end{pythoncode}
+    \end{solution}
+\end{enumerate}
+
+\end{document}

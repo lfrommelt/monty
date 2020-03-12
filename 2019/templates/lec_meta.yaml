@@ -1,0 +1,24 @@
+---
+author: 
+  - Katharina Groß
+  - Martin Pömsl
+  - Sören Selbach
+author-abbreviation:
+  - K.\ Groß
+  - M.\ Pömsl
+  - S.\ Selbach
+theme: UOS
+beameroption:
+  - show notes on second screen=right
+section-titles: false
+lang: en-US
+babel-lang: american
+listings: true
+biblio-style: authortitle
+header-includes:
+  - \usepackage{minted}
+  - \newminted{python}{linenos=false}
+  - \newminted[outputcode]{text}{frame=single, framesep=5pt}
+  - "\\newenvironment{pyexec}[1]{\\noindent \\textbf{Output: }  #1}{}"
+...
+

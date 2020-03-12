@@ -1,0 +1,27 @@
+\input{templates/ex_template}
+
+\title{$title$}
+
+\setdate{$year$}{$month$}{$day$}
+
+%%%%%%%%%%%% PANDOC STUFF %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% from default.latex
+
+% Lists
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+% Tables
+\usepackage{longtable,booktabs}
+\IfFileExists{footnote.sty}{\usepackage{footnote}\makesavenoteenv{longtable}}{}
+
+% Strikeout
+\usepackage[normalem]{ulem}
+\pdfstringdefDisableCommands{\renewcommand{\sout}{}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+$body$
+\end{document}
