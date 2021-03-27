@@ -1,0 +1,338 @@
+\input{templates/ex_template.tex}
+
+
+\title{BPP Exercise 4 -- Data Structures}
+% {YYYY}{MM}{DD}
+\setdate{2019}{04}{28}
+
+
+\begin{document}
+
+\section{Warm-up Exercises (15 points)}
+
+The following tasks require only commands that you already learned last week. The resulting scripts should be at most four lines long, more code is not necessary.	
+
+\subsection{\texttt{while}}
+
+Write a script that will repeatedly ask the user to enter a word until he enters the string "exit". \newline
+Hint: You can use a \texttt{while}-loop and \texttt{input()} to implement this.
+
+\vspace{1em}
+
+\noindent Example output:
+
+\begin{outputcode}
+Please enter something: 
+Hi, how are you?
+
+Please enter something:
+Blubb.
+
+Please enter something:
+exit
+\end{outputcode}
+
+\begin{solution}
+	\begin{pythoncode}
+input_string = ""
+while input_string != "exit":
+	input_string = input("Please enter something:\n")
+	\end{pythoncode}
+\end{solution}
+
+
+\subsection{\texttt{randint} and \texttt{print}}
+
+The command \texttt{print(sometext, end="")} can be used to print multiple times in the same line. Use it to write a script that will repeatedly add a random digit to the line until 100 iterations have passed. \newline
+Hint: The script will probably run so fast on your computer that you will only see the result, not the iterations in between.
+
+\vspace{1em}
+
+\noindent Example output:
+
+\begin{outputcode}
+1        # after the first  iteration
+178      # after the third  iteration
+17809830 # after the eighth iteration
+
+and so on ...
+\end{outputcode}
+
+\begin{solution}
+	\begin{pythoncode}
+from random import randint
+for n in range(100):
+	print(randint(1, 9), end="")
+	\end{pythoncode}
+\end{solution}
+
+\subsection{\texttt{type}}
+
+The command \texttt{type()} can be used to determine the data type of a variable. Write a script that asks for an input using \texttt{input()} and then prints the resulting data type. 
+
+\vspace{1em}
+
+\noindent This should be repeated forever (or until the user presses Ctrl + C). What do you discover?
+
+\vspace{1em}
+
+\noindent Example output:
+
+\begin{outputcode}
+Please enter something:
+Blubb.
+<class 'str'>
+Please enter something:
+
+and so on ...
+\end{outputcode}
+
+\begin{solution}
+	\begin{pythoncode}
+while True:
+	print("Please enter something:")
+	print(type(input()))
+
+# We discover that no matter what we enter, the data type is <class 'str'>.
+	\end{pythoncode}
+\end{solution}
+
+
+\section{Creating Data Structures (30 points)}
+
+\subsection{Choosing Data Structures}
+
+Data structures can be used to store facts about the world in them. Right now we are not able to do much with them except print them, but storing information is essential in all areas of scientific computing - from performing machine learning to storing the results of your own experiments. 
+
+\vspace{1em}
+
+\noindent For now, we just store facts about the world. For this we use lists, tuples, sets and dictionaries. Answer the following questions and store each answer in a data structure that is suitable for it, e.g. if the question was "What are day, month and year of your birth?", it should clearly be stored in a tuple, since this fact is never going to change. 
+
+\vspace{1em}
+
+\noindent Your code should then look like this:
+\begin{pythoncode}
+birth_date = (31, 01, 1956) # tuple since unchangeable
+\end{pythoncode}
+
+These are the questions you should answer:
+
+\begin{enumerate}
+	\item Who are your three favourite musicians?	
+	\item Which two colours do you see right now?
+	\item Which three buildings do you have lectures in and what lectures?
+	\item What are the names of the first five months of the year?
+\end{enumerate}
+
+\begin{solution}
+	\begin{pythoncode}
+musicians = ["1st musician", "2nd musician", "3d musician"] # list since ordered ranking
+colours = {"colour1", "colour2"}                            # set since unique and non-ordered
+buildings = {"b1": "lec1", "b2": "lec2", "b3": "lec3"}      # dictionaries since non-ordered pairs
+months = ["January", "February", "March", "April", "May"]   # list since ordered
+	\end{pythoncode}
+\end{solution}
+
+
+\subsection{Indexing Errors}
+
+Many of the following lines of code will produce errors. For each error write a comment with the type of the error and explain what went wrong (use the internet if necessary).
+
+\vspace{1em}
+
+\begin{pythoncode}
+my_list = [2, 3, 9, 1]
+print(my_list["1"])
+my_list[1] = 9
+my_list[0] = my_list[1]
+print(my_list[:2])
+
+for number in my_list
+    print(my_list[number])
+
+my_tuple = ("banana", "apple", "cucumber")
+print(my_tuple[-1])
+my_tuple[1] = "green apple"
+
+my_set = {my_tuple[0], my_list[-1])
+print(my_set[0])
+
+my_dict = {"tuple": my_tuple, "list:" my_list}
+print(my_dict["tuple"])
+\end{pythoncode}
+
+\noindent This is the intended output:
+
+\begin{outputcode}
+3
+[9, 9]
+9
+9
+9
+1
+cucumber
+('banana', 'apple', 'cucumber')
+\end{outputcode}
+
+\begin{solution}
+	\begin{pythoncode}
+my_list = [2, 3, 9, 1]
+print(my_list["1"])                 # TypeError: not an int
+my_list[1] = 9
+my_list[0] = my_list[1]
+print(my_list[:2])
+
+for number in my_list               # SyntaxError: missing ":"
+    print(my_list[number])          # IndexError: number not in index
+
+my_tuple = ("banana", "apple", "cucumber")
+print(my_tuple[-1])
+my_tuple[1] = "green apple"         # TypeError: tuples are immutable
+
+my_set = {my_tuple[0], my_list[-1]) # SyntaxError: round bracket instead of curly
+print(my_set[0])                    # TypeError: sets cannot be accessed by index
+
+my_dict = {"tuple": my_tuple, "list:" my_list} # SyntaxError: ":" inside string
+print(my_dict["tuple"])
+	\end{pythoncode}
+\end{solution}
+
+\subsection{Iteratively Creating Lists}
+
+Write a function \texttt{make\_random\_grid} that returns a two-dimensional nested list filled with random number between 0 and 99. The number of rows and columns of the nested list should be adjustable.
+
+\vspace{1em}
+
+\noindent The command \texttt{print(make\_random\_grid(3, 4))} should produce an output with the same structure as this:
+
+\begin{outputcode}
+[[80, 40, 6, 12], [6, 28, 60, 60], [61, 95, 83, 92]]
+\end{outputcode}
+
+\begin{solution}
+	\begin{pythoncode}
+from random import randint
+
+def make_random_grid(height, width):
+	"""Creates a list of lists filled with random ints between 0 and 99."""
+	grid = []
+	for y in range(height):
+		row = []
+		for x in range(width):
+			row.append(randint(0, 99))
+		grid.append(row)
+	return grid
+
+print(make_random_grid(3, 4))
+	\end{pythoncode}
+\end{solution}
+
+\section{Bottle Return Machine (30 points)}
+
+Write a script for a bottle return machine like we have it in the Mensa Westerberg. The script should store information about each entered bottle in a dictionary and then store these dictionaries in turn in a list. \newline The following attributes for each bottle should be stored: name, price, ID.
+\newline The ID would usually be read from the code on the back of the bottle, in our case we can just choose a random three-digit number as ID for each bottle. Name and price should be asked for via \texttt{input()}. This should be repeated until "finish" is entered.
+
+\vspace{1em}
+
+\noindent Once "finish" has been entered, all stored bottles and the total price of all bottles combined should be printed. The output should look like this:
+
+\begin{outputcode}
+Please enter the next bottle's name:
+Mate
+
+Thank you. Please enter the price of Mate:
+1.30
+
+Please enter the next bottle's name:
+Cola
+
+Thank you. Please enter the price of Cola:
+1.10
+
+Please enter the next bottle's name:
+finish
+
+[{'name': 'Mate', 'price': 1.30, 'ID': 128}, {'name': 'Cola', 'price': 1.10, 'ID': 324}]
+
+The total price is 2.40.
+
+\end{outputcode}
+
+\begin{solution}
+	\begin{pythoncode}
+from random import randint
+
+print("Please enter the next bottle's name:")
+input_string = input()
+
+storage = []
+
+while input_string != "finish":
+	print("\nThank you. Please enter the price of " + input_string + ":")
+	bottle_price = float(input())
+
+	bottle = {"name": input_string, "price": bottle_price, "ID": randint(100, 999)}
+	storage.append(bottle_dict)
+
+	print("\nPlease enter the next bottle's name:")
+	input_string = input()
+
+print()
+print(storage)
+
+total_price = 0
+
+for bottle in storage:
+	total_price = total_price + bottle["price"]
+
+print("\nThe total price is " + str(total_price) + ".")
+	\end{pythoncode}
+\end{solution}
+
+\section{Thinking Outside the Box (25 points)}
+
+\subsection{Extending the Bottle Return Machine}
+
+The programmer of the bottle return machine wants to make sure that a bottle cannot be scanned twice. This means it should not be possible to store bottles with the same ID. How can you do this in Python? Which data structure should be used? Writing code is not necessary, just explain.
+
+\vspace{1em}
+
+\begin{solution}
+
+\noindent An easy solution would be to use a dictionary of dictionaries with the ID as key. Since the keys in a dictionary are unique, this would solve the problem efficiently.
+
+\noindent Another more complex solution would be to filter the list of dictionaries after every scan for duplicates, by storing all IDs in a set. This would still work, but need a lot more code.
+
+\end{solution}
+
+\newpage
+
+\subsection{The Wheat and Chessboard Problem}
+
+List comprehension is a concept that allows us to directly apply arithmetic operations to every number in a \texttt{range} and create a new list from the results. Below you can see some examples:
+
+\begin{pythoncode}
+print([number for number in range(4)])     # [0, 1, 2, 3]
+print([number + 1 for number in range(4)]) # [1, 2, 3, 4]
+print([number * 2 for number in range(4)]) # [0, 2, 4, 6]
+\end{pythoncode}
+
+\noindent Look up the "Wheat and Chessboard Problem" on the internet.
+
+\vspace{1em}
+
+\noindent Using list comprehension and \texttt{sum()}, it is possible to calculcate the result of the Wheat and Chessboard Problem with only one line in Python (without using any equivalent formulas that have to be proven first). 
+
+\vspace{1em}
+
+\noindent Write a script that implements this and prints the correct result.
+
+\vspace{1em}
+
+\begin{solution}
+	\begin{pythoncode}
+print(sum([2 ** n for n in range(64)]))
+	\end{pythoncode}
+\end{solution}
+
+\end{document}

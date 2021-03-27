@@ -1,0 +1,52 @@
+comments / docstrings
+	comments before lines that are described
+	comments get indented as well
+	WE WILL DEDUCT POINTS.
+
+spacing and empty lines
+
+use functions to structure your code
+
+general code structure: imports, function definitions first
+
+if __name__ == "__main__":
+
+use _ in for loops where you don't need the variable
+
+pythonic / concise ways for solving common problems:
+	list comprehensions
+	ternary operator
+	enumerate
+	"string" * n
+	* unpacking
+	tuple unpacking in general
+
+very briefly talk about efficiency
+
+never trust user input
+
+naming: do NOT use built in names!!!!
+
+======================================================
+	
+Error Handling:
+
+understanding error messages: types of errors and what they mean
+
+try except
+
+"EOL"; "EOF"
+
+BPB 2018 07 slide 46
+
+logging
+
+example for error without error message:
+
+text = text.splitlines()
+
+for i, elem in enumerate(text):
+    if elem == "":
+        text.pop(i)
+
+

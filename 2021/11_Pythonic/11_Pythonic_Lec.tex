@@ -1,0 +1,874 @@
+\input{templates/lec_template.tex}
+
+\begin{document}
+
+\title[Pythonic Programming]{Week 11: Pythonic Programming}
+\subtitle{Basic Programming in Python}
+
+\author[kgross, mpoemsl, sselbach]{Katharina Groß, Martin Pömsl, Sören Selbach}
+
+\date{\today}
+
+\begin{frame}[plain]
+     \titlepage
+\end{frame}
+
+\begin{frame}
+    \tableofcontents
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}
+    \sectionpage
+\end{frame}
+
+
+\begin{frame}{What Does {\it Pythonic} Mean?}
+
+    \begin{exampleblock}{{\bf Some Definition}}
+        "To say that code is pythonic is to say that it uses Python idioms well, that it is natural or shows fluency in the language, that it conforms with Python's minimalist philosophy and emphasis on readability."
+    \end{exampleblock}
+
+    \vspace{2em}
+
+    \footnotesize{\url{https://en.wikipedia.org/wiki/Python_(programming_language)}}
+
+\end{frame}
+
+
+\begin{frame}{What is {\it Idiomatic} Python?}
+
+    Usually, you have some abstract idea how to solve a problem:
+
+    \vspace{1em}
+
+    {\it I need to do something for each element in this list}
+
+    \vspace{1em}
+
+    There are always many ways to achieve this:
+
+    \begin{itemize}
+        \item {\tt while}-loop
+        \item {\tt for}-loop
+        \item list comprehension
+        \item many, many single statements
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{What is {\it Idiomatic} Python?}
+
+    However, often there is an {\bf idiom} that is specifically designed for your task
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+    for element in my_list:
+        # do something
+    \end{pythoncode}
+
+    \vspace{0.5em}
+
+    is better than
+
+    \vspace{0.5em}
+
+    \begin{pythoncode}
+    i = 0
+    while i < len(my_list):
+        # do something
+        i += 1
+    \end{pythoncode}
+
+    \note{
+        To make this explicit: {\it Pythonic} also refers to code style, as this is closely related to readbility. However, it is a more general concept and includes things like
+
+        \begin{itemize}
+            \item Is my code too complicated?
+            \item Am I using appropriate language features / libraries / built-in functions?
+            \item Is my code efficient?
+        \end{itemize}
+    }
+
+\end{frame}
+
+\begin{frame}{Everything is Best in Moderation}
+
+    Idioms are supposed to
+
+    \begin{enumerate}
+        \item ... make your life {\bf easier}
+        \item ... make your code more readable
+        \item ... make your code shorter
+    \end{enumerate}
+
+    ... in that order of priority.
+
+    \vspace{1em}
+
+    \begin{alertblock}{}
+        {\bf Don't overcomplicate things trying to make them 'more pythonic'!}
+    \end{alertblock}
+
+\end{frame}
+
+\section{Unpacking}
+
+\begin{frame}
+    \sectionpage
+\end{frame}
+
+\subsection{Unpacking for Assignments}
+
+
+\begin{frame}[fragile]{Unpacking}
+
+    \begin{block}{}
+        Assign elements of a tuple/list/... to individual variables
+    \end{block}
+
+    \begin{pythoncode}
+    some_tuple = (1, 2, 3)
+
+    # un-pythonic
+    a = some_tuple[0]
+    b = some_tuple[1]
+    c = some_tuple[2]
+
+    # pythonic
+    a, b, c = some_tuple
+    \end{pythoncode}
+
+    \note{
+        Python supports what is called (tuple-){\bf unpacking}.
+
+        \vspace{1em}
+
+        Unpacking means that the elements of a tuple (or list or other similar structure) are automatically distributed to individual variables.
+
+        \vspace{1em}
+
+        If the tuple to be unpacked has too many or too few elements for the number of variables on the left side, Python will throw a {\tt ValueError}.
+    }
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Side Note}
+
+    \begin{block}{}
+         In {\bf assignments}, brackets for tuples are optional
+    \end{block}
+
+    \begin{pythoncode}
+    some_tuple = (1, 2, 3)
+
+    some_tuple = 1, 2, 3
+
+    # in function calls, () are still needed!
+
+    some_func(tuple_argument=1, 2, 3)   # no
+
+    some_func(tuple_argument=(1, 2, 3)) # yes
+    \end{pythoncode}
+
+\end{frame}
+
+\begin{frame}[fragile]{Use-Case: Swapping Variables}
+
+    \begin{block}{}
+        Swap the contents of two given variables {\tt a} and {\tt b}
+    \end{block}
+
+    \begin{pythoncode}
+    # un-pythonic
+    temp = a
+    a = b
+    b = temp
+
+    # pythonic
+    a, b = b, a
+    \end{pythoncode}
+
+    \note{
+        What is happening here is that we first create a new tuple {\tt (b, a)} (remember that we do not need {\tt ()} for that), and then unpack it to the variables {\tt a} and {\tt b}.
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Use-Case: Multiple Return Values}
+
+    \begin{pythoncode}
+    def compute_x_and_y():
+
+        # complex computation here
+
+        return x, y
+
+    # un-pythonic
+    result = compute_x_and_y()
+    x = result[0]
+    y = result[1]
+
+    # pythonic
+    x, y = compute_x_and_y()
+    \end{pythoncode}
+
+    \note{
+        This is a very common use-case:
+
+        \vspace{1em}
+
+        You have a function that should return multiple values. The natural approach is to just return a tuple containing all values that should be returned. Tuple unpacking makes it very easy to further work with the returned values.
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Unpacking with {\tt *}}
+
+    \begin{pythoncode}
+    some_tuple = (1, 2, 3, 4)
+
+    # open tail
+    a, *b = some_tuple
+    # a: 1, b: [2, 3, 4]
+
+    # open head
+    *a, b = some_tuple
+    # a: [1, 2, 3], b: 4
+
+    # open middle
+    a, *b, c = some_tuple
+    # a: 1, b: [2, 3], c: 4
+    \end{pythoncode}
+
+    \note{
+        If you use an asterisk ({\tt *}) {\bf on the left hand side of an assignment} when unpacking, Python will unpack all values that are {\bf not unpacked to variables without the {\tt *}} to this variable. You can only have {\bf one} starred variable in an unpacking assignment.
+
+        \vspace{1em}
+
+        Note that the variable with the {\tt *} will be a {\bf list}, even if you are unpacking a tuple.
+    }
+
+\end{frame}
+
+\subsection{Unpacking for Functions}
+
+
+\begin{frame}[fragile]{Unpacking and Functions}
+
+    \begin{alertblock}{}
+        There is a version of unpacking for {\bf function arguments}
+    \end{alertblock}
+
+    Suppose we are given a list of 3 numbers and this function:
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+    def some_func(a, b, c):
+        return a * b * c
+
+    # un-pythonic
+    some_func(numbers[0], numbers[1], numbers[2])
+
+    # pythonic
+    some_func(*numbers)
+    \end{pythoncode}
+
+    \note{
+        Similarly to unpacking for assignments, we have a list or tuple of values and want to distribute it to individual parameters. The difference is that here, we write a {\tt *} in front of the object we want to unpack. Otherwise, it is pretty much the same thing.
+
+        \vspace{1em}
+
+        There is a similar syntactical construct for unpacking dictionaries to keyword-parameters using a double asterisk {\tt **}.
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Packing and Functions}
+
+    \begin{block}{}
+        What if we want to have a function accept an arbitrary amount of arguments?
+    \end{block}
+
+    \vspace{1em}
+
+    {\bf Packing} is basically the opposite of unpacking
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+    def some_func(*args):
+        return " ".join(args)
+
+    some_func("python", "is", "cool")
+    \end{pythoncode}
+
+    \note{
+        Again, a similar construct for keyword-arguments exists.
+    }
+
+\end{frame}
+
+\subsection{{\tt zip}}
+
+\begin{frame}[fragile]{{\tt zip}}
+
+    \begin{block}{}
+        {\tt zip} allows us to iterate over multiple iterable objects {\bf simultaneously}
+    \end{block}
+
+    \begin{pythoncode}
+    list_1 = [1, 2, 3]
+    list_2 = ["a", "b", "c"]
+
+    for number, char in zip(list_1, list_2):
+        print(number, char)
+    \end{pythoncode}
+
+    {\bf Output:}
+
+    \begin{outputcode}
+    1 a
+    2 b
+    3 c
+    \end{outputcode}
+
+    \note{
+        {\tt zip} returns the next item from each iterable object (e.g. list) in a tuple. If you zip 3 lists, you will get a 3-tuple in each iteration.
+
+        \vspace{1em}
+
+        Here we also use the term {\bf iterable} for the first time. You may have noticed that you can iterate only over certain types of objects, like lists, tuples or ranges. These are called iterable.
+
+        \vspace{1em}
+
+        In theory, you could also make your custom classes iterable using dunder methods, but we will not cover that here.
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Use-Case: Vector Addition}
+
+    \begin{pythoncode}
+vec1 = [-1, 3, 5, -3]
+vec2 = [1, 4, 5, -42]
+
+# element-wise addition
+sum_vector = [v1 + v2 for v1, v2 in zip(vec1, vec2)]
+    \end{pythoncode}
+
+\end{frame}
+
+
+\begin{frame}{Example: List of Tuples}
+
+    We get a list of 2-tuples containing the price of an item and the amount that was purchased
+
+    \vspace{1em}
+
+    \begin{itemize}
+        \item {\tt (1.5, 20)} means that 20 copies of an item with price 1.5€ were purchased
+        \item the list looks like this: \\
+            {\tt [(1.5, 20), (12.32, 10), (0.99, 42), (3.2, 12)]}
+        \item we want to compute \\
+            $1.5 \cdot 20 + 12.32 \cdot 10 + 0.99 \cdot 42 + 3.2 \cdot 12$
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: List of Tuples}
+
+    \begin{pythoncode}
+items = [(1.5, 20), (12.32, 10), (0.99, 42), (3.2, 12)]
+
+# un-pythonic
+total = 0
+
+for item_tuple in items:
+    total += item_tuple[0] * item_tuple[1]
+
+print(total)    # 233.18
+    \end{pythoncode}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: List of Tuples}
+
+    \begin{alertblock}{{\bf Improvement}}
+        Unpacking also works in {\tt for}-loops!
+    \end{alertblock}
+
+    \begin{pythoncode}
+items = [(1.5, 20), (12.32, 10), (0.99, 42), (3.2, 12)]
+
+# more pythonic and more readable
+total = 0
+
+for price, amount in items:
+    total += price * amount
+
+print(total)    # 233.18
+    \end{pythoncode}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: List of Tuples}
+
+    \begin{alertblock}{{\bf Improvement}}
+        We can use a list comprehension and the {\tt sum} function!
+    \end{alertblock}
+
+    \begin{pythoncode}
+items = [(1.5, 20), (12.32, 10), (0.99, 42), (3.2, 12)]
+
+# almost perfect
+product_list = [amount * price for amount, price in items]
+total = sum(product_list)
+
+print(total)    # 233.18
+    \end{pythoncode}
+
+    \note{
+        We have replaced the {\tt for}-loop by a list comprehension. This is a bit more elegant, but comes at the cost of having to create a intermediate list, which consumes memory and processing time. In most cases, this is not a problem and the readability is more important.
+    }
+
+\end{frame}
+
+\section{Lazy Evaluation}
+
+\begin{frame}
+    \sectionpage
+\end{frame}
+
+\subsection{What is Lazy Evaluation?}
+
+
+\begin{frame}[fragile]{Lazy Evaluation}
+
+    What happens when we create a {\tt range} object?
+
+    \vspace{1em}
+
+    \begin{outputcode}
+    >>> range(10)
+    range(0, 10)
+    \end{outputcode}
+
+    \vspace{1em}
+
+    Does it {\bf store} all values from 0 to 9 like a list?
+
+    \note{
+        As a matter of fact, in Python 2 {\tt range} {\it did} return a list, but in Python 3 it does not.
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Lazy Evaluation}
+
+    If it did, creating a very large {\tt range} should take a {\bf noticeable amount of time}
+
+    \vspace{1em}
+
+    \begin{outputcode}
+    >>> range(99999999)
+    range(0, 99999999)
+    \end{outputcode}
+
+    \vspace{1em}
+
+    This happens {\bf just as fast} as the first example
+
+    \vspace{1em}
+
+    \begin{alertblock}{}
+        Only the {\bf definition} of the range is stored. The {\bf values} will be computed when they are {\it needed}, e.g. when iterating over it.
+    \end{alertblock}
+
+    \note{
+        Like everything else, {\tt range}s are objects. A {\tt range} object actually has the {\it attributes} {\tt start}, {\tt stop} and {\tt step}, and stores nothing else!
+
+        \vspace{1em}
+
+        It also has {\bf magic methods} that tell Python how to iterate over it or how to check if a value is inside the range. Because the values in a range are so systematic, we can easily think of ways to compute very efficiently whether a value is inside a list - something like {\it iff value >= start and value < stop, value is inside the range}. There is no {\bf need} to store all the values individually!
+
+        \vspace{1em}
+
+        This idea of only doing computations when they are needed is called {\bf Lazy Evaluation}
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Lazy Evaluation}
+
+    Many different objects in Python rely on {\bf Lazy Evaluation}
+
+    \vspace{1em}
+
+    You have already worked with some:
+
+    \begin{itemize}
+        \item {\tt enumerate}
+        \item {\tt csv.reader}, {\tt csv.DictReader}
+        \item {\tt zip}
+        \item the {\it generator} inside a list comprehension
+    \end{itemize}
+
+    \vspace{1em}
+
+    {\it ... wait what?}
+
+\end{frame}
+
+\subsection{Generators}
+
+
+\begin{frame}{What is a Generator?}
+
+    \begin{itemize}
+        \item much like a {\tt range}, a {\bf generator} is an object that can be iterated over
+        \item it {\bf generates} values as they are needed (Lazy Evaluation)
+        \item it is way more flexible than {\tt range}
+    \end{itemize}
+
+    \vspace{1em}
+
+    \begin{exampleblock}{{\bf Example}}
+        You could have a generator that generates a sequence of square numbers:
+
+        \vspace{0.5em}
+
+        {\tt 1, 2, 4, 9, 16, 25, ...}
+    \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]{Defining Generators}
+
+    \begin{itemize}
+        \item there are multiple ways to define a generator
+        \item we will only look at {\bf generator expressions}
+        \item in fact, you already know them!
+    \end{itemize}
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+    squares = (x ** 2 for x in range(10))
+    \end{pythoncode}
+
+    \vspace{1em}
+
+    \begin{itemize}
+        \item this looks just like a list comprehension!
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Generator vs. List Comprehension}
+
+    {\bf list comprehension:}
+
+    \vspace{0.5em}
+
+    \begin{pythoncode}
+    >>> squares = [x ** 2 for x in range(10)]
+    >>> squares
+    [0, 1, 4, 9, 16, 25, 36, 49, 64, 81]
+    \end{pythoncode}
+
+    \vspace{1em}
+
+    {\bf generator:}
+
+    \vspace{0.5em}
+
+    \begin{pythoncode}
+    >>> squares = (x ** 2 for x in range(10))
+    >>> squares
+    <generator object <genexpr> at 0x7f5f9f8904c0>
+    \end{pythoncode}
+
+    \note{
+        A list comprehension creates, well, a {\bf list}. A generator expression on the other hand creates a {\bf generator object}.
+
+        \vspace{1em}
+
+        {\bf What do they have in common?}
+
+        \vspace{0.5em}
+
+        You can iterate over them, for example in a {\tt for}-loop.
+
+        \vspace{1em}
+
+        {\bf What is different?}
+
+        \vspace{0.5em}
+
+        Because with a list, all values are computed at creation, we can access elements by {\it index}. For generators, that's not possible. We can only ever compute the {\it next} item of a generator. \\
+        Generators can also be iterated over {\bf only once.} If you want to do it again, you have to create a new one. This is also the reason why generators do not have a nice {\it string representation} like lists do. To print the values of a generator, you would have to iterate over it - but you can only do that once.
+
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: List of Tuples Revisited}
+
+    \begin{block}{{\bf Task}}
+        Compute the sum of the products of the tuples!
+    \end{block}
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+items = [(1.5, 20), (12.32, 10), (0.99, 42), (3.2, 12)]
+
+# almost perfect
+product_list = [amount * price for amount, price in items]
+total = sum(product_list)
+
+print(total)    # 233.18
+    \end{pythoncode}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: List of Tuples Revisited}
+
+    \begin{alertblock}{{\bf Improvement}}
+        Replace the list comprehension by a generator!
+    \end{alertblock}
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+items = [(1.5, 20), (12.32, 10), (0.99, 42), (3.2, 12)]
+
+# pythonic
+product_gen = (amount * price for amount, price in items)
+total = sum(product_gen)
+
+print(total)    # 233.18
+    \end{pythoncode}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: List of Tuples Revisited}
+
+    \begin{alertblock}{{\bf Improvement}}
+        We can even put the generator expression directly inside the brackets of {\tt sum()}
+    \end{alertblock}
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+items = [(1.5, 20), (12.32, 10), (0.99, 42), (3.2, 12)]
+
+# pythonic
+total = sum(amount * price for amount, price in items)
+
+print(total)    # 233.18
+    \end{pythoncode}
+
+    \note{
+        At this point I should probably say again that in 99\% of cases, you will not notice any performance difference between any of the approaches shown.
+
+        \vspace{1em}
+
+        Nonetheless, using a generator expression here would be considered the {\it pythonic} approach, because it is the most elegant and avoids unnecessary work. Theoretically, if you used a list comprehension, someone reading your code might think you're doing it because you need the list later on for something else.
+    }
+
+\end{frame}
+
+\section{{\tt lambda} Functions}
+
+\begin{frame}
+    \sectionpage
+\end{frame}
+
+\begin{frame}{Example: Sorting by Attributes}
+
+    In last weeks homework assignment, you had to sort James Bond movies by year
+
+    \begin{itemize}
+        \item each movie is an object
+        \item each movie has an attribute {\tt title}
+        \item each movie has an attribute {\tt year}
+    \end{itemize}
+
+    Suppose we already have a list of movies {\tt bond\_movies}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: Sorting by Attributes}
+
+    \begin{block}{}
+        Can we solve this without having to implement our own sorting function?
+    \end{block}
+
+    \begin{exampleblock}{{\bf Docstring of the built-in function {\tt sorted}:}}
+        \begin{outputcode}
+sorted(iterable, /, *, key=None, reverse=False)
+    Return a new list containing all items from the
+    iterable in ascending order.
+
+    A custom key function can be supplied to customize
+    the sort order, and the reverse flag can be set to
+    request the result in descending order.
+        \end{outputcode}
+    \end{exampleblock}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: Sorting by Attributes}
+
+    What is a {\it custom key function}?
+
+    \vspace{0.5em}
+
+    \begin{pythoncode}
+def get_year_attr(movie):
+    return movie.year
+
+sorted_movies = sorted(bond_movies, key=get_year_attr)
+    \end{pythoncode}
+
+    \begin{alertblock}{}
+        The key function tells {\tt sorted} how to sort the elements in the given list - in our case by their attribute {\tt year}
+    \end{alertblock}
+
+    But having to define an entire function (including a name) is inconvenient
+
+    \note{
+        It is common for many built-in functions (or functions from libraries) that potentially have to deal with lists of objects to support an argument like {\tt key}! It can be wise to always check the documentation of the built-in functions first before you spend a lot of time implementing something by yourself.
+    }
+
+\end{frame}
+
+\subsection{{\tt lambda} Functions}
+
+
+\begin{frame}[fragile]{{\tt lambda} Functions}
+
+    {\tt lambda} Functions are {\bf single-line}, {\bf anonymous} functions
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+    >>> lambda: print(42)
+    <function <lambda> at 0x7f1c7ce70400>
+
+    >>> my_lambda = lambda: print(42)
+    >>> my_lambda()
+    42
+
+    >>> lambda_with_arg = lambda x: x ** 2
+    >>> lambda_with_arg(4)
+    16
+    \end{pythoncode}
+
+    \note{
+        {\tt lambda} functions are just like normal functions, with the restriction that they can only be a single line long. One important difference is, however, that they automatically return the value of their content - you do {\bf not} have to write the {\tt return} keyword.
+
+        \vspace{1em}
+
+        They are called {\it anonymous} functions because they do not have a name like normal functions do. However, you can still assign them to a variable and access them that way.
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: Sorting by Attribute}
+
+    \begin{alertblock}{\bf Improvement}
+        We can use a {\tt lambda} function to shorten our code!
+    \end{alertblock}
+
+    \vspace{1em}
+
+    \begin{pythoncode}
+    sorted_movies = sorted(bond_movies,
+        key=lambda movie: movie.year)
+    \end{pythoncode}
+
+\end{frame}
+
+\subsection{{\tt map} \& {\tt filter}}
+
+
+\begin{frame}[fragile]{Example: {\tt map}}
+
+    \begin{alertblock}{}
+        The built-in function {\tt map} takes a {\bf function} as an argument and applies it to each element in an {\bf iterable}
+    \end{alertblock}
+
+    \begin{pythoncode}
+some_list = [1, 2, 3, 4]
+squared = map(lambda x: x**2, some_list)
+
+print(squared)
+# <map object at 0x7f1c7cda5c18>
+
+print(list(squared))
+# [1, 4, 9, 16]
+    \end{pythoncode}
+
+    \note{
+        Note that {\tt map} does not return a list directly, but only a {\tt map} object, which is a generator (i.e. lazy).
+    }
+
+\end{frame}
+
+\begin{frame}[fragile]{Example: {\tt filter}}
+
+    \begin{alertblock}{}
+        The built-in function {\tt filter} takes a {\bf function} as an argument and applies it to each element in an {\bf iterable}. It only keeps those elements for which the function returns {\tt True}
+    \end{alertblock}
+
+    \begin{pythoncode}
+some_list = [1, 2, 3, 4]
+even = filter(lambda x: x % 2 == 0, some_list)
+
+print(even)
+# <filter object at 0x7f1c7cda5c18>
+
+print(list(even))
+# [2, 4]
+    \end{pythoncode}
+
+    \note{
+        Note that {\tt filter} does not return a list directly, but only a {\tt filter} object, which is a generator (i.e. lazy).
+    }
+
+\end{frame}
+
+\section{Evaluation}
+
+
+\begin{frame}{Online Evaluation of BPP}
+
+    \begin{alertblock}{}
+        {\bf We want your feedback for this course!}
+    \end{alertblock}
+
+    \vspace{1em}
+
+    There will be three (!) separate evaluation forms online where you can give feedback to Katharina, Martin and me individually
+
+    \vspace{1em}
+
+    You will get an email with a perzonalized TAN and a link to the form
+
+    \vspace{1em}
+
+    \begin{center}
+        {\it We highly appreciate your time!}
+    \end{center}
+
+\end{frame}
+
+
+\end{document}

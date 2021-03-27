@@ -1,0 +1,321 @@
+\input{templates/ex_template.tex}
+
+
+\title{BPP Bonus Sheet -- Recap and Project}
+% {YYYY}{MM}{DD}
+\setdate{2019}{05}{05}
+
+
+\begin{document}
+
+\section*{About this Sheet}
+
+Although \textbf{there will be no lecture this week} due to May 1st being holiday, we we still would like to give you the opportunity to practice your skills.
+Handing in your answers for this sheet is optional, but \textbf{it will give you an additional homework point} towards the 10 homework points you need to pass this course.
+
+\vspace{1em}
+
+\noindent This sheet gives you the choice between two kinds of task:
+
+\vspace{1em}
+
+\noindent You can either complete tasks A1 - A3 or complete the project described in B. Each of them will give you exactly one homework point if you get more than 60\% of the points associated with it. \newline \textbf{However, you may not hand in both, but only one of them.}
+
+\section*{A1. Warm-up Exercises}
+
+\subsection*{A1.1 Boolean Operators and Truth Tables (4 points)}
+
+\vspace{1em}
+
+\noindent Determine the truth values of the following boolean operators for each configuration of truth values as given in the tables.
+
+\vspace{1em}
+
+\begin{center}
+    \begin{tabular}{| c | c | c | c |}
+    \hline
+    \textbf{a} & \textbf{b} & \textbf{c} & \textbf{(b or c) and (a or c)} \\
+    \hline
+    True & True & True &  \\
+    \hline
+    True & True & False &  \\
+    \hline
+    True & False & True &  \\
+    \hline
+    True & False & False &  \\
+    \hline
+    False & True & True &  \\
+    \hline
+    False & True & False &  \\
+    \hline
+    False & False & True &  \\
+    \hline
+    False & False & False &  \\
+    \hline
+    \end{tabular}
+\end{center}
+
+
+\vspace{1em}
+
+
+\begin{solution}
+\vspace{1em}
+    \begin{center}
+        \begin{tabular}{| c | c | c | c |}
+        \hline
+        \textbf{a} & \textbf{b} & \textbf{c} & \textbf{(b or c) and (a or c)} \\
+        \hline
+        True & True & True & True \\
+        \hline
+        True & True & False & True \\
+        \hline
+        True & False & True & True \\
+        \hline
+        True & False & False & False \\
+        \hline
+        False & True & True & True \\
+        \hline
+        False & True & False & False \\
+        \hline
+        False & False & True & True \\
+        \hline
+        False & False & False & False \\
+        \hline
+        \end{tabular}
+    \end{center}
+\end{solution}
+
+
+
+\subsection*{A1.2 N Bottles of Beer (6 points)}
+
+The 99 bottles programs give us an idea of how a programming language looks as they show the basic loop concepts.
+The 99 bottles program “sings” a little song which goes like this:
+
+\vspace{1em}
+
+\noindent \textit{99 bottles of beer on the wall, 99 bottles of beer.
+Take one down and pass it around, 98 bottles of beer on the wall.
+98 bottles of beer on the wall, 98 bottles of beer.
+Take one down and pass it around, 97 bottles of beer on the wall.
+1 bottle of beer on the wall, 1 bottle of beer.
+Take one down and pass it around, no more bottles of beer on the wall.
+}
+
+\vspace{1em}
+
+
+\noindent Write a function \texttt{n\_bottles(n)} which sings the song starting with n bottles instead of 99. If n is bigger than 99 or smaller than 5 print a message that you want to sing a funnier song than n bottles (of course replace n with the current n). Your final result may also structure the verses in a different layout.
+
+\vspace{1em}
+
+\begin{solution}
+    \begin{pythoncode}
+def bottles(n):
+    """Formats plural according to number of bottles."""
+    return ('1 bottle' if n == 1 else str(n) + ' bottles') + ' of beer'
+
+def n_bottles(n):
+    """
+    Go through the bottles of beer on the wall, and pass them around.
+
+    Calls `bottles(n)` for formatting, and reduces n by 1 each iteration
+    """
+    if 5 <= n <= 99:
+        while(n > 0):
+            print(bottles(n) + ' on the wall,\n  ' + bottles(n) + '.')
+            n = n - 1
+            print('Take one down and pass it around,\n  ' +
+                # conditional expression to determine whether there are bottles left
+                bottles(n if n > 0 else 'no more') +
+                ' on the wall.\n')
+    else:
+        print('I want to sing funnier songs than "' + bottles(n) + '".\n')
+
+
+n_bottles(3)
+n_bottles(1011)
+n_bottles(5)
+
+    \end{pythoncode}
+\end{solution}
+
+\section*{A2. 2D Lists Revisited (20 points)}
+
+
+In this assignment, you are supposed to implement a simple packing system (or at least some of the logic that would be needed for one).
+
+\vspace{1em}
+
+\noindent 1. Let's handle the input first: The user should be able to enter an arbitrary amount of numbers between 0 (exclusive) and 100 (inclusive). This is to simulate objects coming in over a conveyor belt with some specified weight. This should go on until the user types \texttt{end}. All numbers that have been entered should be stored in a list.
+
+\vspace{1em}
+
+\noindent \textbf{Example:}
+
+\begin{outputcode}
+Please enter a number or type 'end': 42
+Please enter a number or type 'end': 3
+Please enter a number or type 'end': 53
+Please enter a number or type 'end': 30
+Please enter a number or type 'end': 21
+Please enter a number or type 'end': 82
+Please enter a number or type 'end': 17
+Please enter a number or type 'end': end
+List of numbers: [42, 3, 53, 30, 21, 82, 17]
+\end{outputcode}
+
+\noindent 2. Next, the actual packing: We want to divide our list of numbers into smaller lists that can each only have a total sum of at maximum 100. Think of it like bins that can only carry 100 units of mass. That means that in the end, you should have a list of lists that each sum up to 100 or less, like this:
+
+\begin{pythoncode}
+[[42, 3, 53],   # sum: 98
+ [30, 21],      # sum: 51
+ [82, 17]]      # sum: 99
+\end{pythoncode}
+
+\noindent For that, iterate over the input list and decide for each number whether it fits in the current bin. If it does, put it in it, and if it does not, open up a new bin. \textbf{You may use the built-in function \texttt{sum(iterable)}}, which returns the sum of a list.
+
+\vspace{1em}
+
+\noindent \textbf{Note:} This is of course \textbf{not} the optimal way of packing. Suppose there would be one more number, say \texttt{20}. According to our algorithm, we would have to open up a new bin because it does not fit into the last one. However, if we could go back, we could have put it into the second bin just fine. For this assignment, we suppose that we have a machine that can only access one item at a time (because of the conveyor belt) and immediately sends off the bins for further processing as soon as the next item does not fit.
+
+\vspace{1em}
+
+\noindent 3. Lastly, we need to print our solution. Simply calling \texttt{print(list\_of\_bins)} would result in something like this:
+
+\begin{outputcode}
+[[42, 3, 53], [30, 21], [82, 17]]
+\end{outputcode}
+
+\noindent ...which obviously is not very pleasant to read. To fix that, implement a function \texttt{pretty\_print\_bins(list\_of\_bins)} that takes as an argument our list of bins from before and prints it like this:
+
+\begin{outputcode}
+===================================
+Bin 1: 42, 3, 53 | Total weight: 98
+Bin 2: 30, 21 | Total weight: 51
+Bin 3: 82, 17 | Total weight: 99
+===================================
+There are 3 bins with a total weight of 248
+\end{outputcode}
+
+\noindent If you can get the \texttt{|} to line up that would be even better, but be warned: Without some formatting tools that we have not yet introduced this may get messy -- so this is optional. Feel free to use your favourite search engine to look for helpful formatting features.
+
+\vspace{1em}
+
+\begin{solution}
+See file \texttt{04\_A2\_2D\_Lists\_Revisited.py}.
+\end{solution}
+
+\section*{A3. Dictionaries (20 points)}
+
+Write a function that translates a list of integer numbers to a list of string number words.
+\vspace{1em}
+
+\noindent 1. Write a function that generates a list of random integers. The function should have three arguments:
+the first and the second argument should specify the lowest and highest random integer that can be in the list;
+the third argument is the length of the list i.e. how many numbers there will be in the list. The third argument should have the default value of 10.
+\vspace{1em}
+
+\noindent 2. Create a dictionary that translates the integer to number words. There should be at least 10 entries in your dictionary.
+\vspace{1em}
+
+\noindent 3. Write a function that takes the number list and the translation dictionary as arguments and returns a translated list of number words. Bonus: Can you use a list comprehension to do that?
+\vspace{1em}
+
+
+\noindent \textbf{Example:}
+
+\begin{pythoncode}
+# generating a list with 10 random numbers from 3 to 9
+num_list_1 = make_randint_list(3, 9)
+
+# print original number list
+print(num_list_1)
+
+# call function without error handling to translate number list
+print(translate(num_list_1, translation_dict))
+\end{pythoncode}
+
+\noindent \textbf{Output:}
+\begin{outputcode}
+[7, 8, 8, 8, 6, 4, 8, 7, 9, 7]
+['seven', 'eight', 'eight', 'eight', 'six', 'four', 'eight', 'seven', 'nine', 'seven']
+\end{outputcode}
+
+\vspace{1em}
+\noindent 4. Thinking outside the box: Write \textbf{another} function that does the same as in 3.3., but also handles the case if there is no matching translation in the dictionary.
+In that case the words 'unknown translation' instead of the matching number word should be returned.
+Hints: there are multiple solutions to do this. If you need some inspiration search for the "dictionary get()" or "try except KeyError" with your favourite search engine.
+\vspace{1em}
+
+\noindent \textbf{Example:}
+
+\begin{pythoncode}
+# generating a list with 5 random numbers from 7 to 10
+num_list_2 = make_randint_list(7, 10, 5)
+
+# call function with try except error handling to translate number list
+print(translate_except_error(num_list_2, translation))
+\end{pythoncode}
+
+\noindent \textbf{Output:}
+\begin{outputcode}
+[10, 8, 8, 9, 7]
+['unknown translation', 'eight', 'eight', 'nine', 'seven']
+\end{outputcode}
+
+\begin{solution}
+See file \texttt{04\_A3\_Dictionaries.py}.
+\end{solution}
+
+\newpage
+
+\section*{B. Implementing Conway's Game of Life}
+
+Your mission - should you choose to accept it - is to implement Conway's Game of Life in the terminal using Python.
+
+\vspace{1em}
+
+\noindent Conway's Game of Life is a zero-player game that was invented by the British mathematician John Conway in 1970. "Zero-player game" in this context means that it requires no input by the user - it just continuously proceeds based on its initial state.
+
+\vspace{1em}
+
+\noindent The "playing field" of the game is divided into a grid of cells which can either have the value 1 (alive) or 0 (dead). Each cell has eight neighboring cells which are either horizontally, vertically or diagonally adjacent. In each iteration of the game, the following rules are successively applied:
+
+\begin{enumerate}
+
+\item Any live cell with fewer than two live neighbours dies, as if by underpopulation.
+\item Any live cell with two or three live neighbours lives on to the next generation.
+\item Any live cell with more than three live neighbours dies, as if by overpopulation.
+\item Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
+
+\end{enumerate}
+
+\noindent The question of how to handle cells at the borders of the playing field which have fewer than eight neighboring cells is handled differently in all implementations. For our project we can just accept that e.g. a cell in the top left corner of the playing field has only three neighbors.
+
+\vspace{1em}
+
+\noindent You can find more information about the game, the principles behind it and interesting initial formations on its \href{https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life}{Wikipedia Page}.
+
+\vspace{1em}
+
+\noindent For an existing implementation of the game, see \href{https://playgameoflife.com/}{this}.
+
+\vspace{1em}
+
+\noindent If you are now thinking "How do I even start programming such a thing in Python?" - don't worry, you don't have to start from nothing. In the homework sheet folder on StudIP you will find a script called \texttt{game\_of\_life\_template.py}. In this file, a function to display the playing field and the general structure of the code are already outlined. You can use this as the basis for your own script, all you have to do is complete the functions \texttt{rand\_fill} and \texttt{apply\_rules}.
+
+\vspace{1em}
+
+\noindent However, if you are up for a challenge, you can of course also just start with a blank document and implement everything on your own. Just note that you should only use methods that we already covered in one of our lectures (apart from \texttt{sleep}, which is also introduced in the template file). If you hit any obstacles, do not hesitate to write to one of us or simply drop by during the practice session.
+
+\vspace{1em}
+
+\noindent Enjoy your first real project in Python!
+
+\begin{solution}
+See file \texttt{04\_B\_Game\_of\_Life.py}.
+\end{solution}
+
+\end{document}

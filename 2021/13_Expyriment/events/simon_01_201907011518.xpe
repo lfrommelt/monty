@@ -1,0 +1,89 @@
+#Expyriment 0.9.0 (Python 3.7.3), .xpe-file, coding: UTF-8
+#date: Mon Jul 01 2019 15:18:18
+#sha1: None
+#modules: 
+#display: size=(1366, 768), window_mode=False, open_gl=2
+#os: uname_result(system='Linux', node='nathan', release='5.1.12-300.fc30.x86_64', version='#1 SMP Wed Jun 19 15:19:49 UTC 2019', machine='x86_64', processor='x86_64')
+Time,Type,Event,Value,Detail,Detail2
+15113,design,log,
+#design: #exp: Simon Task
+#design: #dvn: pairing,position,color,key,reaction_time
+#design: block_cnt,block_id,block_pairing,trial_cnt,trial_id,color,position
+#design: 0,0,red_is_left,0,1,red,left
+#design: 0,0,red_is_left,1,5,red,right
+#design: 0,0,red_is_left,2,4,red,right
+#design: 0,0,red_is_left,3,3,green,left
+#design: 0,0,red_is_left,4,0,red,left
+#design: 0,0,red_is_left,5,6,green,right
+#design: 0,0,red_is_left,6,7,green,right
+#design: 0,0,red_is_left,7,2,green,left
+#design: 1,1,red_is_right,0,7,green,right
+#design: 1,1,red_is_right,1,3,green,left
+#design: 1,1,red_is_right,2,0,red,left
+#design: 1,1,red_is_right,3,5,red,right
+#design: 1,1,red_is_right,4,4,red,right
+#design: 1,1,red_is_right,5,1,red,left
+#design: 1,1,red_is_right,6,2,green,left
+#design: 1,1,red_is_right,7,6,green,right
+15114,design,logged,
+15114,Experiment,started
+15115,stdout,received,'2'
+15115,stdout,received," \nHere's  your task: You will see a colored dot. \n \nIf  the dot is red, press the key 's'. \n \nIf  the dot is green, press the key 'l'."
+15115,stdout,received,''
+15151,Stimulus,presented,10
+23832,Keyboard,received,13,wait
+23833,Stimulus,presented,9
+24834,Stimulus,presented,0
+25796,Keyboard,received,115,wait
+25796,Stimulus,presented,9
+26798,Stimulus,presented,2
+27336,Keyboard,received,115,wait
+27336,Stimulus,presented,9
+28336,Stimulus,presented,2
+28965,Keyboard,received,115,wait
+28965,Stimulus,presented,9
+29967,Stimulus,presented,1
+30311,Keyboard,received,108,wait
+30311,Stimulus,presented,9
+31312,Stimulus,presented,0
+31859,Keyboard,received,115,wait
+31859,Stimulus,presented,9
+32860,Stimulus,presented,3
+33286,Keyboard,received,108,wait
+33286,Stimulus,presented,9
+34287,Stimulus,presented,3
+34683,Keyboard,received,108,wait
+34684,Stimulus,presented,9
+35684,Stimulus,presented,1
+38904,Keyboard,received,115,wait
+38904,stdout,received," \nHere's  your task: You will see a colored dot. \n \nIf  the dot is red, press the key 'l'. \n \nIf  the dot is green, press the key 's'."
+38904,stdout,received,''
+38934,Stimulus,presented,11
+42911,Keyboard,received,13,wait
+42912,Stimulus,presented,9
+43913,Stimulus,presented,7
+43916,Keyboard,received,108,wait
+43916,Stimulus,presented,9
+44919,Stimulus,presented,5
+44922,Keyboard,received,115,wait
+44922,Stimulus,presented,9
+45924,Stimulus,presented,4
+45927,Keyboard,received,108,wait
+45927,Stimulus,presented,9
+46928,Stimulus,presented,6
+46932,Keyboard,received,115,wait
+46932,Stimulus,presented,9
+47933,Stimulus,presented,6
+47937,Keyboard,received,108,wait
+47938,Stimulus,presented,9
+48940,Stimulus,presented,4
+48943,Keyboard,received,108,wait
+48944,Stimulus,presented,9
+49946,Stimulus,presented,5
+49951,Keyboard,received,108,wait
+49951,Stimulus,presented,9
+50953,Stimulus,presented,7
+50956,Keyboard,received,108,wait
+50956,Experiment,ended
+50957,Data,saved
+50958,Stimulus,presented,12

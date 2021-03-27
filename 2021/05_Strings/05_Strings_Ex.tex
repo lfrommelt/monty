@@ -1,0 +1,388 @@
+\input{templates/ex_template.tex}
+
+
+\title{BPP Exercise 5 -- Strings}
+% {YYYY}{MM}{DD}
+\setdate{2019}{05}{12}
+
+
+\begin{document}
+
+\section{Formatting Strings (10 points)}
+
+\subsection{Removing Whitspace}
+
+Using \texttt{strip}, \texttt{split} and \texttt{join}, remove all whitespace from the following strings:
+
+\begin{outputcode}
+
+"the quick brown fox jumps over the lazy dog"
+"   the quick \n brown fox jumps over the lazy dog"
+"the\t\t\tquickbrownfoxjumpsoverthe lazy dog"
+
+\end{outputcode}
+
+\vspace{1em}
+
+\begin{solution}
+
+    \begin{pythoncode}
+
+my_string_1 = "the quick brown fox jumps over the lazy dog"
+my_string_2 = "   the quick \n brown fox jumps over the lazy dog"
+my_string_3 = "the\t\t\tquickbrownfoxjumpsoverthe lazy dog"
+
+print("".join(my_string_1.split()))
+print("".join(my_string_2.strip().split()))
+print("".join(my_string_3.split()))
+
+    \end{pythoncode}
+
+\end{solution}
+
+
+\subsection{Formatted Printing}
+
+Calculate the average of the following numbers and print the result with 5 decimals:
+
+\begin{outputcode}
+
+4.3, 6, 9.2, 1.77029, 42
+
+\end{outputcode}
+
+\vspace{1em}
+
+\begin{solution}
+
+    \begin{pythoncode}
+
+my_list = [4.3, 6, 9.2, 1.77029, 42]
+
+avg = sum(my_list) / len(my_list)
+
+print("{:.5f}".format(avg))
+
+    \end{pythoncode}
+
+\end{solution}
+
+\section{Working with the News (30 points)}
+
+Please download the file \texttt{texts.py} from the folder Homework Sheets / Code on StudIP. You can put your code for all the following tasks into this file, since you will work with the strings which are explicitly defined there. However, please try to maintain some sort of structure so we can separate which code is intended to answer which task. 
+
+\subsection{Preprocessing}
+
+Print the string \texttt{article}. It contains the first few paragraphs of an article on the New York Times Website (source in the comment above). It already looks quite nice, however, since it was just copy \& pasted from the internet, there are a few things that you should improve upon.
+
+\vspace{1em}
+
+\noindent It is your task to write a function \texttt{make\_nice} that takes an article text like this as argument and returns a copy with the following improvements:
+
+\vspace{1em}
+
+\begin{enumerate}
+    
+    \item First generate a list of all the lines. Since there are a lot of double linebreaks, this results in some empty lines. Find a way to get a list of only those lines that contain text.
+    \item Drop the third and the sixth line. The third only contains duplicate information and the sixth (the update) was only added afterwards.
+    \item Arrange the meta-data about author and date in a sensible way. 
+    \item Add line numbers for the body of the text and lines marking the start and end of the text
+
+\end{enumerate}
+
+\noindent Execute \texttt{article\_nice = make\_nice(article)} after your function definition. From now on we will work with this version of the article.
+
+\noindent The output of \texttt{print(article\_nice)} should look like this (with complete lines, no "..."):
+
+\begin{outputcode}
+
+############################# START OF TEXT #############################
+
+High-Tech Degrees and the Price of an Avocado: The Data New York Gave to Amazon
+
+The city and state sent loads of data to Amazon during its search for a new ...
+
+By Karen Weise - Dec. 12, 2018
+
+1: An avocado at Whole Foods costs 1.25. 
+2: Columbia University handed out 724 graduate degrees in computer ...
+3: And 10 potential land parcels in Long Island City are zoned M1-4 ...
+4: New York provided all of these data points, and thousands more, ...
+5: On Monday, New York City posted online the 253-page proposal it ...
+6: The city quickly took the file down, saying it should have checked ...
+7: But The New York Times downloaded the document before it was taken ...
+8: The proposal shows the types of data, some rarely available publicly ...
+
+############################## END OF TEXT ##############################
+
+
+\end{outputcode}
+
+\vspace{1em}
+
+\begin{solution}
+
+    \begin{pythoncode}
+
+def make_nice(article):
+    """Returns the given article nicely formatted."""
+
+    lines = article.splitlines()
+
+    lines = [line for line in lines if line != ""]
+
+    nice = "\n" + "#" * 29 + " START OF TEXT " + "#" * 29 + "\n"
+    nice += "\n" + lines[0] + "\n" + "\n"
+    nice += lines[1] + "\n"  + "\n"
+    nice += lines[3] + " - " + lines[4].strip() + "\n" + "\n"
+
+    for index, line in enumerate(lines[6:]):
+          nice += "{}: {}".format(index + 1, line) + "\n"
+
+    nice += "\n" + "#" * 30 + " END OF TEXT " + "#" * 30 + "\n"
+  
+    return nice
+
+article_nice = make_nice(article)
+print(article_nice)
+
+    \end{pythoncode}
+
+\noindent This code can also be found in \texttt{05\_texts\_solution.py} on StudIP.
+
+\end{solution}
+
+\subsection{Evaluation}
+
+Now we want to learn something about our article. Write a script that answers the following questions on the contents of \texttt{article\_nice}:
+
+\begin{enumerate}
+
+    \item What is the most frequent word in the text?
+    \item What is the most frequent character in the text?
+    \item How many non-alphanumeric characters are there in the text? \newline Subtract the 118 "\#" and 8 ":" that we artificially inserted.
+
+\end{enumerate}
+
+\noindent \textbf{Hint 1:} To answer the first two questions, you can first define a function \texttt{print\_frequencies} that takes a list of strings as argument and for each element in the list prints how often it is contained in the list. You can also just print those elements that occur more than once. 
+
+\vspace{1em}
+
+\noindent \textbf{Hint 2:} \texttt{count} can also be applied to lists with the following syntax: \texttt{my\_list.count(my\_element)}. \newline \texttt{split} may also come in handy. 
+
+\vspace{1em}
+
+\begin{solution}
+
+    \begin{outputcode}
+
+The most frequent word is 'the' with 14 occurrences.
+The most frequent character is ' ' with 214 occurrences.
+There are 261 non-alphanumeric characters in the text.
+
+    \end{outputcode}
+
+\noindent For the code that was used to generate this output, see \texttt{05\_texts\_solution.py} on StudIP.
+
+\end{solution}
+
+\section{Caesar Cipher (50 points)}
+
+\subsection{Encrypting Text with the Caesar Cipher}
+
+The Caesar Cipher is a very simple encryption method that replaces each letter in a text by another letter which is specified by a given shift in the alphabet. The shift determines how many letters in the alphabet one should go ahead to find the replacement. 
+
+\vspace{1em}
+
+\noindent \textbf{Example:} 
+
+\vspace{1em}
+
+\noindent The letter "a" with shift 1 results in the letter "b". 
+\newline The letter "c" with shift 2 results in the letter "e". 
+\newline Negative shifting is also possible: The letter "f" with shift -1 results in the letter "e".
+
+\vspace{1em}
+
+\noindent When a letter would "drop off" one end of the alphabet, we just start at the other end:
+
+\vspace{1em}
+
+\noindent The letter "z" with shift 1 results in the letter "a".
+\newline The letter "a" with shift -3 results in the letter "x"
+
+\vspace{1em}
+
+\noindent Your task is to write a function \texttt{caesar\_cipher} that takes as an argument a string and an int which denotes the shift. This function should return a copy of the string in which each lowercase Latin letter (from "a" to "z") is shifted by the given int. You can ignore any non-alphabetic non-lowercase characters and just replicate them.
+
+\vspace{1em}
+
+\noindent \textbf{Hint:} You will need the functions \texttt{ord} and \texttt{chr} from the lecture as well as an unicode table. You can find an unicode table \href{http://www.tamasoft.co.jp/en/general-info/unicode-decimal.html}{here}. For our purposes, only the cells from 97 to 122 are relevant.
+
+\vspace{1em}
+
+\noindent The output of \texttt{print(caesar\_cipher(article\_nice, 3))} should look like this (again no "..."):
+
+\begin{outputcode}
+
+############################# START OF TEXT #############################
+
+Hljk-Thfk Dhjuhhv dqg wkh Pulfh ri dq Ayrfdgr: Tkh Ddwd Nhz Yrun Gdyh wr Apdcrq
+
+Tkh flwb dqg vwdwh vhqw ordgv ri gdwd wr Apdcrq gxulqj lwv vhdufk iru ...
+
+Bb Kduhq Whlvh - Dhf. 12, 2018
+
+1: Aq dyrfdgr dw Wkroh Frrgv frvwv 1.25. 
+2: Croxpeld Uqlyhuvlwb kdqghg rxw 724 judgxdwh ghjuhhv lq frpsxwhu ...
+3: Aqg 10 srwhqwldo odqg sdufhov lq Lrqj Ivodqg Clwb duh crqhg M1-4 ...
+4: Nhz Yrun surylghg doo ri wkhvh gdwd srlqwv, dqg wkrxvdqgv pruh ...
+5: Oq Mrqgdb, Nhz Yrun Clwb srvwhg rqolqh wkh 253-sdjh sursrvdo ... 
+6: Tkh flwb txlfnob wrrn wkh iloh grzq, vdblqj lw vkrxog kdyh ...
+7: Bxw Tkh Nhz Yrun Tlphv grzqordghg wkh grfxphqw ehiruh lw ...
+8: Tkh sursrvdo vkrzv wkh wbshv ri gdwd, vrph uduhob dydlodeoh ...
+
+############################## END OF TEXT ##############################
+
+\end{outputcode}
+
+\vspace{1em}
+
+\begin{solution}
+
+\noindent For the code, see \texttt{05\_texts\_solution.py} on StudIP.
+
+\end{solution}
+
+\subsection{Decrypting Text with the Caesar Cipher}
+
+Now let's try decrypting. Fortunately, in the Caesar Cipher, decryption follows the same principles as encryption. If you know the shift that was used to encrypt a text, you can easily decrypt it by just applying the same function again with the inverse shift. 
+
+\vspace{1em}
+
+\noindent In our case that means that if a string \texttt{txt} was encrypted with \texttt{secret = caesar\_cipher(txt, 3)}, it can easily be decrypted with \texttt{txt\_decrypt = caesar\_cipher(secret, -3)}. 
+
+\vspace{1em}
+
+\noindent If our \texttt{caesar\_cipher} function was implemented correctly, \texttt{print(txt == txt\_decrypt)} should evaluate to \texttt{True} now. However, in order to do that, you have to know the shift that was used to encrypt the text. 
+
+\vspace{1em}
+
+\noindent Your task is to determine the shift used to enrypt the following encrypted string and decrypt it:
+
+\begin{outputcode}
+
+vhgzktmnetmbhgl!%mabl%bl%max%lxvkxm%fxlltzx.
+%max%xgvhwbgz%ptl%whgx%
+pbma%max%yheehpbgz%labym:%fbgnl%lxoxg.%atox%t%gbvx%wtr.
+
+\end{outputcode}
+
+\noindent To determine the shift, we can use our results from task 2.2. The most frequent word in our news article is also the most frequent word in English texts overall and as such also the most frequent word in the encrypted string.
+
+\vspace{1em}
+
+\noindent So in order to determine the shift, we can just determine the most frequent word in the encrypted string and assume that it is the word that we found in task 2.2. Using the first letters of both, we can compute the shift.
+
+\vspace{1em}
+
+\noindent \textbf{Example:} So if the most frequent word in the encrypted string was "dcpcpc" and we assumed it to be "banana", we would compare the first letters - "d" and "b" - and come to the conclusion that the whole string must be encrypted with shift 2 and can be decrypted with \texttt{caesar\_cipher(my\_string, -2)}
+
+\vspace{1em}
+
+\noindent However, we encounter another problem here with our encrypted string: There do not seem to be separate words at all.
+
+\vspace{1em}
+
+\noindent This is because all the spaces were replaced by a non-alphanumeric character in order to make it harder to decrypt. To fix this, you first have to find out the most frequent non-alphanumeric character in the encrypted string and replace it with spaces. Only then you can compute the shift based on the most frequent word and decrypt the string.
+
+\vspace{1em}
+
+\noindent To sum it up:
+
+\begin{enumerate}
+
+    \item Find the most frequent non-alphanumeric character and replace every occurence of it with a space " "
+    \item Split the resulting string into words and determine the most frequent one
+    \item Compare the most frequent word with the most frequent word from task 2.2 and compute the shift based on that
+    \item Using your \texttt{caesar\_cipher} function from 3.1 and the computed shift, decrypt the given string
+
+\end{enumerate}
+
+\noindent \textbf{Warning:} There are many tools online that could give you the solution in a matter of seconds without doing any work. Because of that we will not give any points if you just hand in the result, you need to hand in your (working) code as well.
+
+\vspace{1em}
+
+\begin{solution}
+
+    \begin{outputcode}
+
+The encryption was probably done with a shift of -7.
+
+congratulations! this is the secret message. 
+the encoding was done 
+with the following shift: minus seven. have a nice day.
+
+    \end{outputcode}
+
+\noindent For the code that was used to generate this output, see \texttt{05\_texts\_solution.py} on StudIP.
+
+\end{solution}
+
+\section{Thinking Outside the Box: RegEx (10 points)}
+
+Regular Expressions are way more powerful than what we talked about in the lectures. 
+
+\vspace{1em}
+
+\noindent Find regular expressions that solve the following problems. You can read more on RegEx \href{https://docs.python.org/3/howto/regex.html}{here} or conduct your own search on the internet. 
+
+\begin{enumerate}
+
+\item Match all characters that are a decimal digit
+\item Match all characters that are either a digit between 1 and 5 or the letter "t"
+\item Match all words starting with an "A" and ending with an "n"
+
+\end{enumerate}
+
+\vspace{1em}
+
+\noindent To test your RegEx, you can use the following code:
+
+\begin{pythoncode}
+
+import re
+
+my_regex = "" # Insert your RegEx here
+
+compiled = re.compile(my_regex)
+
+replaced = compiled.sub("FOUND IT!", article_nice)
+
+print(replaced)
+
+
+\end{pythoncode}
+
+\vspace{1em}
+
+\begin{solution}
+
+    \begin{pythoncode}
+
+my_regex_1 = "[0-9]"
+
+my_regex_2 = "[1-5t]"
+
+# this is sufficient for the given article text,
+# but may not work on all texts
+my_regex_3_sufficient = "A[a-z]*n\s"
+
+# this will work on all texts
+my_regex_3_general = r"\bA[a-z]*n\b"
+    
+    \end{pythoncode}
+
+\end{solution}
+
+\end{document}

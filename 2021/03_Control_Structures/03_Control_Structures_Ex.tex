@@ -1,0 +1,398 @@
+\input{templates/ex_template.tex}
+
+
+\title{BPP Exercise 3 -- Control Structures}
+% {YYYY}{MM}{DD}
+\setdate{2019}{04}{21}
+
+
+\begin{document}
+
+\section*{A Word About Style}
+
+We are getting to the point where you are writing more and more complex programs, and it is not always possible to understand everything you do at a glance. Therefore, starting now, you are required to \textbf{comment} your code and in general follow a \textbf{good programming style}. Of course we cannot expect you to know all the things you are supposed to do, so we will not be too strict in the beginning. Especially after the \textit{Good Practises} Lecture, however, you are expected to know basic style guidelines.
+
+\section{Warm-up Exercises}
+
+\subsection{Interchanging loops (10 points)}
+
+The \texttt{while}-loop and the \texttt{for}-loop are actually not that different. It is always to possible to rewrite one as the other while having the exact same effect on the program (although sometimes it is not that straightforward).
+
+\vspace{1em}
+
+\noindent 1. Rewrite the following \texttt{while}-loop as a \texttt{for}-loop:
+
+\begin{pythoncode}
+some_number = 42
+
+while some_number < 100:
+    print("Look at my number:", some_number)
+    some_number += 1
+\end{pythoncode}
+
+\begin{solution}
+    \begin{pythoncode}
+for i in range(42, 100):
+    print("Look at my number:", i)
+    \end{pythoncode}
+\end{solution}
+
+\noindent 2. Rewrite the following \texttt{for}-loop as a \texttt{while}-loop:
+
+\begin{pythoncode}
+some_number = 42
+
+for i in range(10, 21, 2):
+    some_number -= i
+    print(some_number)
+\end{pythoncode}
+
+\begin{solution}
+    \begin{pythoncode}
+some_number = 42
+i = 10
+
+while i < 21:
+    some_number -= i
+    print(some_number)
+
+    i += 2
+    \end{pythoncode}
+\end{solution}
+
+
+\section{Nested Loops (30 points)}
+
+\subsection{Understanding the Concept}
+
+An important and powerful concept to wrap your head around is \textit{nesting} loops, meaning having a loop inside a loop. Have a look at this code snippet for listing the numbers 1-9 in a grid:
+
+\begin{pythoncode}
+for row in range(3):
+    for column in range(3):
+        number = row * 3 + column + 1
+        print("  ", number, end="")
+
+    print("\n")
+\end{pythoncode}
+
+\noindent \textbf{Output:}
+
+\begin{outputcode}
+    1   2   3
+
+    4   5   6
+
+    7   8   9
+\end{outputcode}
+
+\noindent 1. What does the \texttt{end} keyword argument of the \texttt{print}-function do? What does \texttt{print("\textbackslash n")} do?
+
+\vspace{1em}
+
+\begin{solution}
+    The \texttt{end} keyword argument tells the \texttt{print}-function what to append to the end of the given string. The default is \texttt{"\textbackslash n"} (the character which creates a new line). Therefore, \texttt{print("\textbackslash n")} prints \textbf{two} empty lines, one because of its argument and one because of the default value of \texttt{end}.
+\end{solution}
+
+\vspace{1em}
+
+\noindent 2. Show how the variables \texttt{row} and \texttt{column} change over the course of this program. You can draw inspiration from the trace table on slide 11 of this weeks lecture. Why is there a \texttt{+ 1} in line 3?
+
+\vspace{1em}
+
+\begin{solution}
+
+    \begin{center}
+        \begin{tabular}{r r}
+            \textbf{\texttt{row}} & \textbf{\texttt{column}} \\
+            \hline \hline
+            \texttt{0} & \texttt{0} \\
+            \texttt{0} & \texttt{1} \\
+            \texttt{0} & \texttt{2} \\
+            \texttt{1} & \texttt{0} \\
+            \texttt{1} & \texttt{1} \\
+            \texttt{1} & \texttt{2} \\
+            \texttt{2} & \texttt{0} \\
+            \texttt{2} & \texttt{1} \\
+            \texttt{2} & \texttt{2} \\
+            \hline
+        \end{tabular}
+    \end{center}
+
+    \noindent The \texttt{+ 1} is needed because \texttt{row} and \texttt{col} only go from 0-2, so \texttt{row * 3 + col} would only go from 0-8. Because we want numbers from 1-9, we add 1.
+\end{solution}
+
+\subsection{Divisibility table}
+
+\noindent Write a program that creates an $n \times n$ table like this (this is $4 \times 4$)
+
+\begin{outputcode}
+       1   2   3   4
+   1   X   X   X   X
+   2       X       X
+   3           X
+   4               X
+\end{outputcode}
+
+\noindent where an \texttt{X} marks that the number on the top is divisible by the number on the left without remainder. The user should be able to input a value for $n$ in the beginning. Your program should at least be able to deal with values from 1 to 9 without breaking. You do not need to recreate the exact same formatting, but it should still look like a proper table (\texttt{X}s neatly below each other etc.)
+
+\vspace{1em}
+
+\begin{solution}
+    \begin{pythoncode}
+n = int(input("Please enter the size of the table: "))
+
+# print the first row (header)
+print("    ", end="")
+
+for i in range(1, n + 1):
+    print("  ", i, end="")
+
+print() # new line
+
+# print the actual table
+for row in range(1, n + 1):
+
+    # print row number at the beginning of each row
+    print("  ", row, end="")
+
+    # print Xs if column number divides row number
+    for col in range(1, n + 1):
+        if col % row == 0:
+            print("   X", end="")
+        else:
+            print("    ", end="")
+
+    print() # new line at the end of each line
+    \end{pythoncode}
+\end{solution}
+
+
+\section{Functions (30 points)}
+
+\subsection{Regular $n$-gons}
+
+The goal in this exercise is to write a function \texttt{draw\_ngon(n)} that can draw a regular $n$-gon using the turtle. To do that, let us first think about how to draw a square: We move forward by some length and then rotate 90 degrees, and do all of that 4 times.
+
+\vspace{1em}
+
+\noindent 1. Write a function \texttt{draw\_square(sidelength)} that can draw a square with the given sidelength. Test it with two different lengths. Do not forget to write a docstring!
+
+\begin{solution}
+    \begin{pythoncode}
+from turtle import *
+
+def draw_square(sidelength):
+    """Draws a square at the current position of the turtle."""
+
+    for i in range(4):
+        forward(sidelength)
+        left(90)
+
+# testing
+draw_square(100)
+draw_square(200)
+input()
+    \end{pythoncode}
+\end{solution}
+
+\vspace{1em}
+
+\noindent Now, for regular $n$-gons, all we need to change is the angle by which we rotate. It is given by this formula:
+$$ \theta_{turn}(n) = \left(180 - \frac{180 (n - 2)}{n} \right) \; \deg $$
+
+\noindent \textbf{Bonus Question:} Why is this true?
+
+\vspace{1em}
+
+\begin{solution}
+    We need to rotate by $180 \degree - \theta_{interior}(n)$, where $\theta_{interior}(n)$ is the \textit{interior angle} of a regular $n$-gon. Remember how the interior angles of \textit{any} triangle always add up to $180 \degree$? We can use this to compute the sum of interior angles in a square, since a square (if divided along the diagonal) is made up of two triangles. We therefore get $360 \degree$. Similarly, a pentagon can be divided into three triangles, and therefore its interior angles sum up to $540 \degree$. In general, the interior angles in any $n$-gon sum up to $(n-2) \cdot 180 \degree$. To get just \textit{one} interior angle, we simply divide by $n$ and get $\theta_{interior}(n) = \frac{(n-2) \cdot 180 \degree }{n}$ which gets us the final formula.
+
+    \vspace{1em}
+
+    \noindent \textbf{Addendum:} To my shame, there is a much simpler explanation (and formula) that did not occur me at the time of writing this sheet: Because the turtle has to complete a $360 \degree$ turn in total, and there are $n$ equally sized turns, we turn by $\frac{360\degree}{n}$ each time. Notice that the given formula simplifies to exactly this.
+\end{solution}
+
+\vspace{1em}
+
+\noindent 2. Write a function \texttt{compute\_turn\_angle(n)} that uses this formula to compute and return the angle by which to rotate for a given $n$.
+
+\begin{solution}
+    \begin{pythoncode}
+def compute_turn_angle(n):
+    """Computes the angle by which to turn when drawing a regular n-gon"""
+    return 180 - (n - 2) * 180 / n
+    \end{pythoncode}
+\end{solution}
+
+\vspace{1em}
+
+\noindent 3. Finally, write a function \texttt{draw\_ngon(n, sidelength)} that can draw a regular $n$-gon with a given sidelength. The sidelength should have a default value of 100 if omitted. Test your function with a few different values for \texttt{n}.
+
+\begin{solution}
+    \begin{pythoncode}
+from turtle import *
+
+def draw_ngon(n, sidelength=100):
+    """Draws a regular polygon with n vertices at the current position of the turtle"""
+    theta = compute_turn_angle(n)
+
+    for i in range(n):
+        forward(sidelength)
+        left(theta)
+
+# testing
+draw_ngon(7)
+draw_ngon(3, sidelength=200)
+input()
+
+    \end{pythoncode}
+\end{solution}
+
+\subsection{Primer number checker}
+
+1. Write a function \texttt{is\_prime(n)} that returns \texttt{True} if \texttt{n} is a prime number and \texttt{False} otherwise.
+
+\vspace{1em}
+
+\noindent \textbf{Reminder:} A prime number is only divisible by two numbers: itself and 1. 1 is therefore no prime number.
+
+\begin{solution}
+    \begin{pythoncode}
+def is_prime(n):
+    """Returns True if n is prime and False otherwise"""
+    if n == 1:
+        return False
+
+    # check for all numbers up to sqrt(n) whether they divide n
+    for divider in range(2, int(n ** 0.5) + 1):
+        if n % divider == 0:
+            # if a divider is found, immediately return False
+            return False
+
+    # we only get here if no divider has been found --> n is prime
+    return True
+
+    \end{pythoncode}
+\end{solution}
+
+\vspace{1em}
+
+\noindent 2. Use this function to write a program that reads a number as input and outputs for all numbers up to it whether they are prime.
+
+\vspace{1em}
+
+\noindent \textbf{Example Output:}
+
+\begin{outputcode}
+Please input a number: 5
+1 is not prime.
+2 is prime.
+3 is prime.
+4 is not prime.
+5 is prime.
+\end{outputcode}
+
+\begin{solution}
+    \begin{pythoncode}
+n = int(input("Please input a number: "))
+
+for i in range(1, n + 1):
+    if is_prime(i):
+        print(i, "is prime.")
+    else:
+        print(i, "is not prime.")
+    \end{pythoncode}
+\end{solution}
+
+\section{Thinking Outside the Box (30 points)}
+
+Python has the ability to generate \textit{pseudo-random numbers}. Pseudo-random means that for most intents and purposes they work just fine as random numbers, but in fact they are generated by some deterministic algorithm that is just very hard to predict. You can generate some yourself using the \texttt{random} module:
+
+\begin{pythoncode}
+from random import randint
+
+n = randint(1, 10)  # random integer from 1 - 10 (inclusive)
+print(n)
+\end{pythoncode}
+
+\noindent 1. Use this functionality to program a little game:
+
+\vspace{1em}
+
+\textit{The computer thinks of a random number between 1 and 100. It then prompts the user to guess what the number is. If the user is wrong, the computer prints whether the secret number is greater or smaller than the guessed one. The user may then guess again. If the user is finally right, the computer prints the user's score (number of tries it took).}
+
+\vspace{1em}
+
+\noindent \textbf{Example Output:}
+
+\begin{outputcode}
+Ok, I have thought of a number. First guess: 10
+My number is smaller than that. Next guess: 5
+My number is larger than that. Next guess: 7
+Correct! It took you 3 guesses.
+\end{outputcode}
+
+\begin{solution}
+    \begin{pythoncode}
+from random import randint
+
+# pick random number
+n = randint(1, 100)
+
+guess = int(input("Ok, I have thought of a number. First guess: "))
+tries = 1
+
+# game goes on as long as the user guesses incorrectly
+while guess != n:
+    if n > guess:
+        guess = int(input("My number is larger than that. Next guess: "))
+    else:
+        guess = int(input("My number is smaller than that. Next guess: "))
+
+    # increase counter each time the user guesses
+    tries += 1
+
+# Print result
+print("Correct! It took you", tries, "guesses.")
+
+    \end{pythoncode}
+\end{solution}
+
+\noindent 2. Use random numbers to write a program that generates a string like this:
+
+\begin{outputcode}
+XXXXOXOXXOOXXOOXXXOXXOXXXXOXOXXXOOOOOXOXXXXXXXXXXXOXXXXOXXXXOOXOXXOXOXOXOOXXOOXXXXXOOOX
+OXOXXOXOOXXXXOXOXOXXXOXOOOOXXOXXOXXOXXXXXXXOXOXXXXXXXXXXXXXXXXOXXOXXXXXOXXXXXXXXOXOOXXX
+XOOOOXOXOXOXOXXOXXXXXXOOXOXXOXOOXXXXOXXOOXOXXXOXXOXOOXOOXXOXOOXOXOOXXXXOXXOOXXXXXXXXXXX
+\end{outputcode}
+
+\noindent The probability for \texttt{X} should be $70\%$ and the probability for \texttt{O} should be $30\%$.
+
+\begin{solution}
+    \begin{pythoncode}
+from random import randint
+
+LENGTH = 100
+
+# start with an empty string
+s = ""
+
+for i in range(LENGTH):
+    # pick random number between 1 and 10
+    n = randint(1, 10)
+
+    # the probability that n is <= 7 is 70%
+    if n <= 7:
+        s += "X"
+
+    # which means the rest is 30%
+    else:
+        s += "O"
+
+# finally print the built-up string
+print(s)
+    \end{pythoncode}
+\end{solution}
+
+\end{document}

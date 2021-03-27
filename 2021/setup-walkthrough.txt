@@ -1,0 +1,43 @@
+For Windows:
+Choose one:
+(A)Forget it...(highly recomendet)
+(B)Rewrite the Makefile and hope you are more lucky than I was
+(C)Be creative
+
+For Linux (tested on Ubuntu 18.04):
+In the commands below "python3" will be used as if it is in the PATH. If it is not, replace it by the actual path to your python installation (e.g. /home/name/anaconda3/bin/python3)
+
+1. Python: Make sure python >= 3.5 is installed somewhere.
+
+2. pdflatex: texlive or Miktex should both be fine. For simplicity make sure to choose a version that already comes with a bunch of packages (texlive-latex-base was not enough, I used texlive-latex-full, which is clearly overkill (>4GB)). Texlive can be installed via apt-get, e.g.:
+
+	sudo apt-get install texlive-latex-extra
+
+I got a bug before updating to the newest apt-get version:
+
+	sudo apt-get update
+
+
+3. I highly recommend pip for doing all the package managing. Conda/mix of both seemed not to work.
+	-update
+	-Navigate to the 2021 folder and create a pip environment:
+	
+	python3 -m venv env
+	(the name env should already be in .gitignore)
+
+	-activate env
+
+	env/bin/activate
+
+	-install the packages:
+
+	pip install pandoc
+	pip install panflute==1.11.2
+	pip install Pygments==2.2.0
+	pip install pandoc-img-glob==0.1.3
+
+Using requirements.txt for installing the packages lead to an error in my case.
+
+For macOS:
+Most should be the same as for linux. For pdflatex MacTeX is probably the right choice in this case.
+
