@@ -13,7 +13,7 @@ make build/01_Introduction_Lec.pdf  # to build a specific file
 
 ### Requirements
 
-- pandoc >= 2.5
+- pandoc = 2.5
 - pdflatex
 - python >= 3.5
 - and `pip install -r requirements.txt` (manual installation might be required instead)
