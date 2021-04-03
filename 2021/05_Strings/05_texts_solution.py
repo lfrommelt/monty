@@ -7,7 +7,7 @@ article = """High-Tech Degrees and the Price of an Avocado: The Data New York Ga
 
 ##########################
 # Task 2.1
-# 
+#
 
 print("\nNow computing results for task 2.1 ...\n")
 
@@ -27,10 +27,10 @@ def make_nice(article):
           nice += "{}: {}".format(index + 1, line) + "\n"
 
     nice += "\n" + "#" * 30 + " END OF TEXT " + "#" * 30 + "\n"
-  
+
     return nice
 
-article_nice = make_nice(article)
+article_nice = make_nice(article).lower()
 print(article_nice)
 
 #########################
@@ -58,7 +58,7 @@ def max_key(my_dict):
     # there are many ways in Python to do this
     # this one only uses functions that we learned
     # in the lecture
-    
+
     max_key = None
 
     for key, value in my_dict.items():
@@ -123,9 +123,9 @@ def compute_shift(word_encrypted, word_original):
 
     uni_encrypted = ord(word_encrypted[0])
     uni_original = ord(word_original[0])
-    
+
     print("The encryption was probably done with a shift of {}.".format(uni_encrypted - uni_original))
-    
+
     return uni_original - uni_encrypted
 
 
@@ -145,7 +145,7 @@ secret_with_spaces = secret_message.replace(space_encrypt, " ")
 # we split the secret message along  spaces
 secret_words = secret_with_spaces.split()
 
-# we compute the most frequent word and assume it to be "the", 
+# we compute the most frequent word and assume it to be "the",
 # since it is the most frequent word in English overall
 secret_words_frequencies = frequency_dict(secret_words)
 the_encrypt = max_key(secret_words_frequencies)
@@ -156,5 +156,3 @@ decrypt_shift = compute_shift(the_encrypt, "the")
 # we decrypt the secret message and print it
 secret_decrypt = caesar_cipher(secret_with_spaces, decrypt_shift)
 print(secret_decrypt)
-
-

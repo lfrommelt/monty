@@ -1,20 +1,17 @@
 \input{templates/lec_template.tex}
 \usepackage{gensymb}
+\usepackage{csquotes}
+\usepackage{fontawesome}
 
-\makeatletter
-\tw@make@key@box{OS@mac}{\faApple}
-\tw@make@key@box{OS@win}{\faWindows}
-\tw@make@key@macro*{\OS}
-\makeatother
-
-\addbibresource{01_Introduction/references.bib}
+\nocite{*}
+\addbibresource{references.bib}
 
 \begin{document}
 
 \title[Introduction]{Week 1: Introduction}
 \subtitle{Basic Programming in Python}
 
-\author[kgross, mpoemsl, sselbach]{Katharina Groß, Martin Pömsl, Sören Selbach}
+\author[jwippermann, rhorn, kvatankhahba, lfrommelt]{Julia Wippermann, Robin Horn, Kamran Vatankhah-Barazandeh, Leonard Frommelt}
 
 % change to date of actual lecture
 \date{\today}
@@ -28,24 +25,23 @@
 \end{frame}
 
 \section{About this course}
-% Martin
+
 \subsection{Who we are}
 
 \begin{frame}{Who we are}
 
     \begin{enumerate}
-        \item Julia Wippermann (julia@familie-wippermann.de?!?):
-        \newline ?st Semester Info Master?
+        \item Julia Wippermann (jwippermann@uos.de):
+        \newline 2nd Semester Info Master / Bachelor Lehramt
         \newline
         \item Robin Horn (rhorn@uos.de):
-        \newline ?th Semester CogSci ?
+        \newline 6th Semester CogSci
         \item Kamran Vatankhah-Barazandeh (kvatankhahba@uos.de):
-        \newline ?th Semester CogSci ?
+        \newline 6th Semester CogSci
         \newline
         \item Leonard Frommelt (lfrommelt@uos.de):
         \newline 10th Semester CogSci Bachelor
     \end{enumerate}
-
 \end{frame}
 
 \subsection{Who should attend this Course}
@@ -103,20 +99,20 @@
 
     \begin{enumerate}
         \item Lecture:
-        \newline Wednesday 12:15 - 13:45 in 31/E05
+        \newline Tuesday 12:15 - 13:45 in 66/E33
         \item Walk-In Practice Session:
-        \newline Thursday 14:15 - 17:45 in 66/E01
+        \newline Thursday 12:15 - 13:45 in 66/E33
         \item Homework Submission:
         \newline Until Sunday 23:59:59 via StudIP
-        \item Feedback Session:
-        \newline Sometime Tuesday between 09:00 and 12:00 if requested
+        \item Feedback:
+        \newline We'll arrange a meeting if requested
     \end{enumerate}
 
     \note{
         \begin{itemize}
             \item \textbf{Lecture:} We will introduce new topics here
             \item \textbf{Walk-In:} You can come and work on your homework assignments. It should be a nice working atmosphere and you can get help if you are stuck!
-            \item \textbf{Feedback:} You can get individual feedback on your homework submission (see a few slides below)
+            \item \textbf{Feedback:} You can get individual feedback on your homework submission
         \end{itemize}
     }
 
@@ -139,42 +135,18 @@
 \begin{frame}{Homework Groups}
 
     \begin{enumerate}
-        \item There are 21 homework groups available
-        \item In each group there should be 2-4 students
+        \item There are around 30 homework groups available
+        \item In each group there should be 3-4 students
         \item You can enter a group between 18:00 today and Sunday
     \end{enumerate}
 
     \vspace{1em}
 
-    \includegraphics[width=\textwidth]{01_Introduction/groups.png}
+    \includegraphics[width=\textwidth]{groups.png}
 
 \end{frame}
-
-\begin{frame}{Homework and Grading}
-
-    \begin{block}{\textbf{Feedback Sessions}}
-    \begin{enumerate}
-        \item Detailed feedback will be given in sessions on Tuesdays
-        \item Each week time slots will be assigned individually
-        \item Request session by entering the timeslot group on StudIP
-        \item We will ensure fair distribution of feedback sessions
-    \end{enumerate}
-    \end{block}
-
-    \note{
-        \begin{itemize}
-            \item Timeslots for feedback sessions are on Tuesday between 9:00 to 12:00
-            \item If you want feedback for your homework submission, you can apply for a timeslot by assigning yourself to the corresponding group on StudIP (\textbf{ONLY ONE PERSON PER GROUP, PLEASE})
-            \item You need to re-apply each week if you want feedback
-            \item We probably cannot accommodate all of you, so we will give preference to groups who have had less feedback sessions so far
-        \end{itemize}
-    }
-
-\end{frame}
-
 
 \section{What is programming?}
-% Sören
 
 \subsection{Why Coxies need Programming}
 %By now playground
@@ -409,7 +381,7 @@
     \end{block}
 
     \begin{center}
-	\includegraphics[width=0.5\textwidth]{01_Introduction/not_sure_meme.jpg}
+	\includegraphics[width=0.5\textwidth]{not_sure_meme.jpg}
     \end{center}
 
 \end{frame}
@@ -473,7 +445,7 @@
         How to open a terminal:
 
         \begin{itemize}
-            \item \textbf{Windows:} Press \keys{\OS + R} and type \texttt{cmd}. Hit \keys{\return}.
+            \item \textbf{Windows:} Press \keys{\faWindows + R} and type \texttt{cmd}. Hit \keys{\return}.
 
             \item \textbf{Ubuntu:} Press \keys{\ctrl + \Alt + T}.
 
@@ -613,7 +585,7 @@
     \vspace*{1em}
 
     $\rightarrow$ For details see file 01\_Introduction\_Ex.pdf \newline
-    $\rightarrow$ For help come to the Walk-In Practice Session tomorrow from 14:15 on in 66/E01!
+    $\rightarrow$ For help come to the Walk-In Practice Session on Thursday from 12:15
 
     \note{
         \begin{itemize}
@@ -625,7 +597,7 @@
 \end{frame}
 
 \begin{frame}{References}
-    \printbibliography
+    \printbibliography[]
 \end{frame}
 
 \end{document}

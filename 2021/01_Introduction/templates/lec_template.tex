@@ -1,5 +1,8 @@
+\PassOptionsToPackage{dvipsnames}{xcolor}
 \documentclass{beamer}
+\usepackage{xcolor}
 \usepackage{pgfpages}
+
 \usepackage[style=authortitle]{biblatex}
 
 %\setbeameroption{show notes on second screen}
@@ -7,6 +10,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
+\usepackage{fontawesome}
 
 \usepackage{minted}
 
@@ -20,6 +24,20 @@
     amssymb
 }
 
+\usepackage[os=win]{menukeys}
+
 \usetheme{UOS}
 
 \graphicspath{{img/}}
+
+% use this with \begin{pythoncode} ... \end{pythoncode}
+\newminted{python}{linenos=false}
+
+\newminted[outputcode]{text}{linenos=false}
+
+% this gets rid of red boxes around syntax errors in minted
+\AtBeginEnvironment{minted}{%
+  \renewcommand{\fcolorbox}[4][]{#4}}
+
+% removes the prefix "Figure 1:" in figure captions
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}

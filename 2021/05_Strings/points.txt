@@ -10,6 +10,10 @@
 
 2.2 - 15 points: 
 
+The most frequent word is 'the' with 14 occurrences.
+The most frequent character is ' ' with 214 occurrences.
+There are 261 non-alphanumeric characters in the text.
+
     1. - 5 points 
     2. - 5 points
     3. - 5 points
@@ -24,6 +28,8 @@ Wenn das Verschieben funktioniert, aber mit den Rändern nicht richtig umgegange
 Bei nicht funktionierendem Code maximal 10 Punkte.
 
 3.2 - 30 points:
+
+shift of -7.
 
     1. - 6 points
     2. - 6 points
