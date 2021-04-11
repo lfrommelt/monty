@@ -28,7 +28,7 @@ Normally all tasks on each exercise sheet will be graded. Since this is the firs
 
 \section{Installing Python}
 
-To get started, we of course need to download and install the Python language. There are many, many flavours of Python, but for our purposes it mostly will not matter which one we choose. We will provide instructions on how to install Miniconda, which has some additional features that will come in handy if you want to pursue programming in Python further after this course.
+To get started, we of course need to download and install the Python language. There are many, many flavours of Python, but for our purposes it mostly will not matter which one we choose. We will provide instructions on how to install Anaconda, which has some additional features that will come in handy if you want to pursue programming in Python further after this course. If for some reason you want an even lighter Python installation (e.g. less than 5GB or shitty internet connection), replace \textit{Anaconda} by \textit{Miniconda} in the following instructions.
 
 \subsection{Opening a Terminal}
 
@@ -46,11 +46,11 @@ To get started, we of course need to download and install the Python language. T
 
 \vspace{1em}
 
-\subsection{Downloading Miniconda}
+\subsection{Downloading Anaconda}
 
-First, open your favourite browser, go to the Miniconda website \url{https://docs.conda.io/en/latest/miniconda.html} and download the appropriate installer for your operating system (you probably have a 64-bit system). Please use \textbf{version 3.7}. On Windows, choose the exe installer, on Linux and MacOS choose the bash installer. Save the file someplace where you can find it again.
+First, open your favourite browser, go to the Anaconda website \url{https://www.anaconda.com/products/individual} (for Miniconda: \url{https://docs.conda.io/en/latest/miniconda.html}) and download the appropriate installer for your operating system (you probably have a 64-bit system). On MacOS choose the Command Line Installer, On Linux the one just called Installer. Save the file someplace where you can find it again.
 
-\subsection{Installing Miniconda}
+\subsection{Installing Anaconda}
 
 \subsubsection*{For Windows Users:}
 
@@ -58,12 +58,12 @@ Find the installer you downloaded in 1.2 and double click it. You can accept the
 
 \subsubsection*{For Linux Users:}
 
-Open a terminal, navigate to the installer you downloaded in 1.2, type \texttt{bash Miniconda3-latest-Linux-x86\_64.sh} and press \keys{\return}. Once again press the enter key and hold it until the User License Agreement has finished. If you agree, type \texttt{yes} and press enter. Once again press enter to confirm the location of the installation. After the installation has finished, once more type \texttt{yes} and press enter to confirm necessary additions to your \texttt{.bashrc} file.
+Open a terminal, navigate to the installer you downloaded in 1.2, type \texttt{bash Anaconda3-2020.11-Linux-x86\_64.sh} and press \keys{\return}. Once again press the enter key and hold it until the User License Agreement has finished. If you agree, type \texttt{yes} and press enter. Once again press enter to confirm the location of the installation. After the installation has finished, once more type \texttt{yes} and press enter to confirm necessary additions to your \texttt{.bashrc} file.
 
 
 \subsubsection*{For MacOS Users:}
 
-Open a terminal, navigate to the installer you downloaded in 1.2, type \texttt{bash Miniconda3-latest-MacOSX-x86\_64.sh} and press \keys{\return}. Once again press the enter key and hold it until the User License Agreement has finished. If you agree, type \texttt{yes} and press enter. Once again press enter to confirm the location of the installation. After the installation has finished, once more type \texttt{yes}. For the changes to take effect, you have to close this terminal and open a new one.
+Open a terminal, navigate to the installer you downloaded in 1.2, type \texttt{bash Anaconda3-2020.11-MacOSX-x86\_64.sh} and press \keys{\return}. Once again press the enter key and hold it until the User License Agreement has finished. If you agree, type \texttt{yes} and press enter. Once again press enter to confirm the location of the installation. After the installation has finished, once more type \texttt{yes}. For the changes to take effect, you have to close this terminal and open a new one.
 
 
 \subsection{Testing your Installation}
@@ -80,7 +80,7 @@ To check whether everything is set up correctly, open a terminal.
 
 \vspace{1em}
 
-\noindent This is the Python shell. If for some reason you it says \texttt{Python 2.x} instead of \texttt{Python 3.7}, you need to use the command \texttt{python3} instead of \texttt{python} for the remainder of this course.
+\noindent This is the Python shell. If for some reason it says \texttt{Python 2.x} instead of \texttt{Python 3.7}, you need to use the command \texttt{python3} instead of \texttt{python} for the remainder of this course.
 
 \vspace{1em}
 
@@ -99,7 +99,8 @@ You have learned in the lecture that Python scripts are no more than simple text
 \begin{itemize}
     \item In the control panel navigate to \textit{System->Advanced System Settings->Environment Variables}
     \item Under System Variables select PATH and click on edit
-    \item At the end add ";C:\textbackslash Users\textbackslash \textit{Username}\textbackslash anaconda3\textbackslash condabin", where \textit{Username} is the username under which conda was installed. If you installed miniconda replace \textit{anaconda3}
+    \item At the end add ";C:\textbackslash Users\textbackslash \textit{Username}\textbackslash anaconda3\textbackslash condabin", where \textit{Username} is the username under which conda was installed. If you installed miniconda replace \textit{anaconda3}. If you installed anaconda in a different folder than the default one, you'll have to change what you add to PATH accordingly.
+
 \end{itemize}
 
 \section{Getting Used to the Terminal}
