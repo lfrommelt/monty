@@ -94,6 +94,13 @@ You have learned in the lecture that Python scripts are no more than simple text
 
 \noindent You can download Atom from this website: \url{https://atom.io/}. The installation process should be straightforward. You can test whether it works by typing \texttt{atom} into the terminal.
 
+\noindent For Windows users: In order to use Atom from the command prompt easily, you should add it to your PATH system variable (in MacOS and Linux this should happen automatically): 
+
+\begin{itemize}
+    \item In the control panel navigate to \textit{System->Advanced System Settings->Environment Variables}
+    \item Under System Variables select PATH and click on edit
+    \item At the end add ";C:\textbackslash Users\textbackslash \textit{Username}\textbackslash anaconda3\textbackslash condabin", where \textit{Username} is the username under which conda was installed. If you installed miniconda replace \textit{anaconda3}
+\end{itemize}
 
 \section{Getting Used to the Terminal}
 
@@ -177,7 +184,7 @@ mv my_script_copy.py logo.py
 You may have gotten the impression that using the terminal to create directories, copy files etc. looks very cool, but is slow compared to just doing it in a file explorer. However, once you practise a bit, you will actually be much quicker this way - and a big part of that is using auto-completion. Whenever you are typing a \textit{filename}, you can press \keys{\tab} after the first three letters or so. The terminal will then try to guess which file you meant, based on which files exist in the current working directory. Play around with this feature by for instance typing \texttt{cp dra} and then hitting \keys{\tab}.
 
 
-\section{Basic Operations in the Python Shell (20 points)}
+\section{Basic Operations in the Python Shell}
 
 For this task you have to open a Python shell by opening a terminal as described in 1.1. and then executing the command \texttt{python}. When you are done with the task, use atom to create a file named \texttt{operators.txt} and save your results in it (on line for each result).
 
@@ -242,7 +249,7 @@ Why are the outputs of \texttt{print("7" + "9")} and \texttt{print(7 + 9)} diffe
     \texttt{/} is the "normal" division operator which can have floating point numbers as output. \texttt{//} is called the \textit{integer division} operator because it always rounds the result down to the next integer.
 \end{solution}
 
-\section{Turtle! (30 points)}
+\section{Turtle!}
 
 For this task open a Python shell once again and execute the following commands:
 
