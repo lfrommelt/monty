@@ -10,7 +10,7 @@
 \setbeamertemplate{caption label separator}{: }
 \setbeamercolor{caption name}{fg=normal text.fg}
 \beamertemplatenavigationsymbolsempty
-\setbeameroption{hide notes}
+%\setbeameroption{show notes on second screen=right}
 % Prevent slide breaks in the middle of a paragraph:
 \widowpenalties 1 10000
 \raggedbottom
@@ -96,7 +96,7 @@
 
 \title{Variables, Assignments and If-statements}
 \author[J.~Wippermann, R.~Horn, K.~Vatankhah-Barazandeh, L.~Frommelt]{Julia Wippermann \and Robin Horn \and Kamran Vatankhah-Barazandeh \and Leonard Frommelt}
-\date{Apr 19, 2021}
+\date{Apr 10, 2019}
 
 \begin{document}
 \frame[plain]{\titlepage}
@@ -107,6 +107,42 @@
 \hypertarget{basic-programming-in-python}{%
 \section{Basic Programming in
 Python}\label{basic-programming-in-python}}
+
+\begin{frame}[fragile,fragile]{About me}
+\protect\hypertarget{about-me}{}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.7\textwidth,height=\textheight]{02_Variables_Assignments/about_me.jpg}
+\caption{A little bit about me.}
+\end{figure}
+
+\note{\begin{itemize}
+\tightlist
+\item
+  master student first semester
+\item
+  studied here in my Bachelors
+\item
+  really looking forward to teaching this course
+\item
+  I also was a beginner when I started my Bachelors
+\item
+  can understand if learning how to code can be intimidating at first
+\item
+  will learn programming by programming
+\item
+  will be very useful for your whole studies
+\item
+  ask if any question, don't hesitate!
+\item
+  I am happy help you
+\item
+  especially if you just started your Masters here, you can also ask me
+  about other orga stuff
+\end{itemize}}
+
+\end{frame}
 
 \begin{frame}[fragile,fragile]{Feedback sessions and Practice sessions}
 \protect\hypertarget{feedback-sessions-and-practice-sessions}{}
@@ -461,21 +497,6 @@ that in this case there are spaces between the variables in the output.}
 
 The first character of a variable name cannot be a digit!
 
-\note{\begin{block}{How to use PINGO?}
-
-\begin{enumerate}
-\item
-  use your smartphone or laptop
-\item
-  type in the session number
-\item
-  answer the question
-\end{enumerate}
-
-Type in the session number: 203586
-
-\end{block}}
-
 \end{block}
 
 \end{frame}
@@ -587,7 +608,11 @@ Lohra is from 12.04.2019 to 14.04.2019
 
 \note{In Python, every value has a data type. There are several data
 types in Python. In this lecture, we will learn about strings, integers,
-floats and booleans.}
+floats and booleans.
+
+These are not all data types. We will get to know a few more in the coming
+weeks.
+}
 
 \end{frame}
 
@@ -604,6 +629,18 @@ floats and booleans.}
   use the \texttt{type()} function to check the type of a variable
   \vspace{2em}
 \end{itemize}
+
+\begin{longtable}[]{@{}llll@{}}
+\toprule
+& Type & Description & Example\tabularnewline
+\midrule
+\endhead
+Integer & int & integer of arbitrary magnitude & x = 1\tabularnewline
+Float & float & floating-point number & x = 1.0\tabularnewline
+String & str & character string & x = `one'\tabularnewline
+Boolean & bool & truth value & x = True\tabularnewline
+\bottomrule
+\end{longtable}
 
 \note{In Python, you do not have to declare the data type of a variable
 explicitly. The data type of a variable will be interpreted based on the
@@ -686,26 +723,6 @@ The type is <class 'float'>
 \end{pyexec}
 
 \note{Note that Python does implicit conversion if possible.}
-
-\end{frame}
-
-\begin{frame}[fragile,fragile]{Data types in this lecture}
-\protect\hypertarget{data-types-in-this-lecture}{}
-
-\begin{longtable}[]{@{}llll@{}}
-\toprule
-& Type & Description & Example\tabularnewline
-\midrule
-\endhead
-Integer & int & integer of arbitrary magnitude & x = 1\tabularnewline
-Float & float & floating-point number & x = 1.0\tabularnewline
-String & str & character string & x = `one'\tabularnewline
-Boolean & bool & boolean value & x = True\tabularnewline
-\bottomrule
-\end{longtable}
-
-\note{In the following weeks, you will get to know more data types like
-Lists or Dictionaries.}
 
 \end{frame}
 
@@ -987,11 +1004,10 @@ You are a teenager.
 \begin{frame}[fragile,fragile]{Errors}
 \protect\hypertarget{errors}{}
 
-\begin{itemize}
-\tightlist
-\item
-  everyone makes mistakes when writing code
-\end{itemize}
+\begin{alertblock}{Everyone makes mistakes when writing code}
+You just need to know how to find them and solve them. $\rightarrow$ Learn
+how to understand error messages
+\end{alertblock}
 
 \note{Even the most experienced programmers make errors in their code.
 When running code, you will also receive error messages and need to
