@@ -1,27 +1,29 @@
 ---
 title: BPP Exercise 2 -- Variables, Assignments and If-statements
-date: 2019-04-14
+date: 2021-04-27
 ...
 
 \noindent
 Please create an individual file for the solution of each task.
 If it is a program, please make sure you save it as `01_filename.py`.
-Make sure that you use a descriptive filename that includes the tasknumber.
+Make sure that you use a descriptive filename that includes the task number.
 Then make a zip folder containing all files for all tasks.
-Lastly, upload the folder to StudIP.
+Lastly, upload the folder to the VIPS sections in StudIP.
 
 \noindent
-We want to encourage you to come to the practice sessions.
-They give you the oportunity to work on the tasks with your peers and ask us for tips for the exercises.
-If you have any problems, ask questions to your fellow students, come to the practice session, or drop us a mail.
+We want to encourage you to come to the coding support sessions.
+They give you the opportunity to ask questions and get concrete help for when you are stuck on something.
+If you have any problems, ask questions to your fellow students, come to the coding support sessions, or drop us a mail.
+
+\noindent
 Have fun Programming!
 
 
 # Warm-up Exercises
 
-## Reasoning about variables (10 points)
+## Reasoning about variables (15 points)
 
-1. What is the output if you run this code? Why?
+1. What is the output if you run this code? For each print-statement, explain what happens and why this statement leads to the output it produces.
    ```python
    cat = "Tom"
    dog = "Bruno"
@@ -54,12 +56,12 @@ Have fun Programming!
    :::
 
 
-# Variable Assignments and Common Operators (20 points)
+# Variable Assignments and Common Operators (25 points)
 
 ## Analyzing code
 
 1. Which of the following lines of code throws an error? Why?
-2. Which lines make sense to use in a script?
+2. These lines of code where executed in the Python Shell. What changes if you use them in a Python script? Do they still make sense in a script?
 
    ```python
    2 + 2
@@ -83,6 +85,8 @@ Have fun Programming!
 ## Your first program: Calculating the prices of your grocery list
 
 1. Complete the script: Print a sentence about the total price for cheese and the total price for the apples to the terminal. After that, add an additional sentence about the total price of the shopping list (the price of the cheese and the apples together).
+
+    The output could for example look like this: `All apples together cost 42 magical beans and all cheese together cost 128 magical beans. Together they cost 170 magical beans. Have a magical day!` Of course, your output can look different to this. Make sure that your results are calculated automatically, do not calculate them by hand and fill them in!
 
    ```python
    # Your grocery list
@@ -131,7 +135,7 @@ Have fun Programming!
    :::
 
 
-# Understanding if-statements (30 points)
+# Understanding if-statements (35 points)
 
 ## Analyzing code
 1. What does this program do? Explain briefly. What happens if you change the distances?
@@ -270,7 +274,7 @@ else:
 :::
 
 
-# Errors and how to fix them (20 points)
+# Errors and how to fix them (25 points)
 
 Even the most experienced programmers make errors in their code. When running code, you will also receive error messages and need to debug (i.e. finding and fixing errors) your code. That is totally normal! Error messages are great as their names can often help us to spot the mistakes in the code more easily and give hints where to start debugging. There are many different kind of error messages. The following exercise picks up three kinds of common mistakes and wants to encourage you to read the error messages carefully.
 
@@ -374,9 +378,9 @@ Even the most experienced programmers make errors in their code. When running co
    :::
 
 
-# Thinking Outside the Box (20 points)
+# Thinking Outside the Box (Bonus)
 
-In the _Thinking Outside the Box_ exercises, we want to encourage you to play around with code, to try out creative solutions, and investigate about concepts that have not been explicitly mentioned in the lecture. To get to a solution, you can run the code, change things and run the code again, search the internet, ask a fellow student for tips or whatever helps you to solve the exercise.
+In the _Thinking Outside the Box_ exercises, we want to encourage you to play around with code, to try out creative solutions, and investigate about concepts that have not been explicitly mentioned in the lecture. To get to a solution, you can run the code, change things and run the code again, search the internet, ask a fellow student for tips or whatever helps you to solve the exercise. &nbsp;
 
 1. What does this program do?
 2. What are the two 'things' that we did not cover in the lecture yet? What do they do and how can you use them?
