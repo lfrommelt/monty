@@ -291,4 +291,117 @@ class Vector2D:
 
 \section{Bonus Task: Iterator (1 bonus point)}
 
+In this week's bonus task we want use dunder methods to make it possible to iterate through our Vector2D object, for example in a for loop. Therefore you are supposed to  extend the Vector2D class that you wrote in task \textbf{4} and write an additional class \texttt{Vector2D\_Iterator}. Have a look at\\ \href{https://docs.python.org/3/library/stdtypes.html\#typeiter}{https://docs.python.org/3/library/stdtypes.html\#typeiter} to see, which methods have to be in your classes. The Container to which is refered to in this link will be your \texttt{Vector2D} class, while the \texttt{Vector2D\_Iterator} will be an iterator. You can use \texttt{09\_5\_bonus.py} as a template. Below, you can see how your extended \texttt{Vector2D} has to behave in a script. Make sure, that the original functionality of the \texttt{Vector2D}-objects is not impaired.
+
+\begin{pythoncode}
+
+my_V2D=Vector2D(4,2)
+
+#Make sure the object's values can still be accessed like before
+print("x-value:", my_V2D.x)
+
+#test the iteration
+for item1 in my_V2D:
+    for item2 in my_V2D:
+        print(item1, item2)
+\end{pythoncode}
+
+\begin{outputcode}
+x-value: 4
+4 4
+4 2
+2 4
+2 2
+\end{outputcode}
+
+\noindent If you feel daring this week, you can try to not implement a \texttt{Vector2D\_Iterator} class, but instead a function that returns a generator object (\href{https://wiki.python.org/moin/Generators}{https://wiki.python.org/moin/Generators}). This can be very confusing, so it might be better to stick to the \texttt{Vector2D\_Iterator} class.
+\vspace{1em}
+
+\noindent \textbf{Hint:} \texttt{Vector2D\_Iterator} will need a variable, to remember at what location it currently is.
+
+\begin{solution}
+
+\begin{pythoncode}
+
+class Vector2D:
+    """A class for a two dimensional vector"""
+    def __init__(self, x, y):
+        self.x=x
+        self.y=y
+
+    def __add__(self, other_vector):
+        """Adds two Vector2D-objects and returns the sum"""
+        return Vector2D(self.x + other_vector.x, self.y + other_vector.y)
+        
+    def __str__(self):
+        return "Vector2D({}, {})".format(self.x, self.y)
+               
+    def __iter__(self):
+        """Returns the iterator for a Vector2D-object"""
+        return Vector2D_Iterator(self)
+       
+class Vector2D_Iterator:
+    def __init__(self, vector):
+        if not type(vector)==Vector2D:
+            raise TypeError
+            
+        self.vector=vector
+        self.current=0
+        
+    def __iter__(self):
+        """An iterator is supposed to return itself"""
+        return self
+              
+    def __next__(self):
+        if self.current==0:
+            self.current+=1
+            return self.vector.x
+        elif self.current==1:
+            self.current+=1
+            return self.vector.y
+        else:
+            raise StopIteration
+
+#testing   
+my_V2D=Vector2D(4,2)
+
+print("x-value:", my_V2D.x)
+
+for item in my_V2D:
+    for item2 in my_V2D:
+        print(item, item2)
+
+#alternative using generator
+class Vector2D_Alt:
+    def __init__(self, x, y):
+        self.x=x
+        self.y=y
+        
+    def __iter__(self):
+        """A generator object is returned as iterator"""
+        return self.next()
+        
+    def next(self):
+        """Returns a generator object that works as an iterator"""
+        """The yield statement works similar to return, but returns a generator
+        object. The next time that next is called with the generator as argument,
+        the execution will resume where it stopped the last time.
+        """
+        yield self.x
+        yield self.y
+        
+#testing
+my_alt_V2D=Vector2D_Alt(4,2)
+
+print("x-value:", my_alt_V2D.x)
+
+for item in my_alt_V2D:
+    for item2 in my_alt_V2D:
+        print(item, item2)
+        
+
+\end{pythoncode}
+
+\end{solution}
+
 \end{document}
