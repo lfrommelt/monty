@@ -5,6 +5,7 @@ dependencies:
   - pandoc=2.5
   - panflute=1.11.2
   - Pygments=2.2.0
+  - pip
   - pip:
     - pandoc-img-glob==0.1.3
 

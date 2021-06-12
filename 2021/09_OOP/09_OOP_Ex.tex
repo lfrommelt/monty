@@ -3,12 +3,17 @@
 \title{BPP Exercise 9 -- Object Oriented Programming}
 
 % {YYYY}{MM}{DD}
-\setdate{2019}{06}{09}
+\setdate{2021}{06}{22}
 
 \begin{document}
 
 
-\section{Warm-Up: OOP Quiz (20 points)}
+
+% Task 1
+
+\section{Warm-Up and OOP Quiz (20 points)}
+
+% Task 1.1
 
 1. Look at the following code snippets. What is the value of {\tt a} and {\tt b} at the end of each of them? Can you explain what the difference is?
 
@@ -38,6 +43,8 @@ b += 10
     \vspace{1em}
 \end{solution}
 
+% Task 1.2
+
 \noindent 2. Decide for each of the statements below whether they are true or false. Give reasons for your answer. When in doubt, base your answer on Python's OOP, not on OOP in other languages.
 
 \begin{enumerate}
@@ -58,28 +65,30 @@ b += 10
     \end{enumerate}
 \end{solution}
 
+
+
+
+% Task 2
+
 \section{Modelling with OOP (30 points)}
+
+% Task 2.1
 
 \subsection{Sketching Ideas}
 
-
-One Motivation behind Object Oriented Programming is that we can model {\bf real-world entities} with objects. In this assignment, we want to model the entities {\it Human}, {\it Employee} and {\it Student} as {\bf classes}.
-
-\vspace{1em}
-
-\noindent 1. Think of a suitable inheritance structure. Who should inherit from who (i.e. which concept is a specialized version of another concept)? Draw these relationships in a diagram (you can draw on a piece of paper and take a picture if you want). Explain why you chose this structure.
+One motivation behind Object Oriented Programming is that we can model {\bf real-world entities} with objects. In this assignment, we want to model the entities {\it Human}, {\it Employee} and {\it Student} as {\bf classes}.
 
 \vspace{1em}
 
-\noindent {\bf Bonus:} Look up the term "UML diagram". It is a standardized way of drawing relationships between classes.
+\noindent 1. Think of a suitable inheritance structure. Who should inherit from who (i.e. which concept is a specialized version of another concept)? Draw these relationships in a diagram (you can draw on a piece of paper and take a picture if you want or find the digital way of your choice). Explain why you chose this inheritance structure.
 
 \vspace{1em}
 
-\noindent 2. Think about {\bf attributes} these classes have (at least 3 per class). For example, every human has an age. Keep in mind that attributes get inherited. Write down what attributes you came up with (you can just add them to your diagram, but give a brief explanation if it is not obvious).
+\noindent 2. Think about {\bf attributes} these classes have (at least 3 per class). For example, every human has an age. Write down what attributes you came up with (you can just add them to your diagram, but give a brief explanation if it is not obvious). Keep in mind that attributes get inherited, so you have to come up with 3 new ones for any inheriting class, additionally to the attributes they are already inheriting. You do not need to write the inherited attributes down again.
 
 \vspace{1em}
 
-\noindent 3. Now think about {\bf methods}. Just with the attributes, define some methods (2 per class) for your classes that make sense. Again, write down your ideas or add them to the diagram.
+\noindent 3. Now think about {\bf methods}. Just like you did for the attributes, define some methods (at least 2 per class) for your classes that make sense. Again, write down your ideas or add them to the diagram.
 
 \vspace{1em}
 
@@ -92,6 +101,8 @@ One Motivation behind Object Oriented Programming is that we can model {\bf real
 
     \noindent Both students and employees are humans, so it makes sense for both to inherit from {\tt Human}. They are {\it specialized} concepts of the concept human. Depending on the context, it may or may not make sense for other inheritance relations: perhaps you are modelling student jobs, where every employee is also a student. Then your structure could look like this: {\tt Employee} inherits from {\tt Student}, which inherits from {\tt Human}.
 \end{solution}
+
+% Task 2.2
 
 \subsection{Implementation}
 
@@ -156,9 +167,14 @@ class Employee(Human):
 \end{solution}
 
 
+
+% Task 3
+
 \section{Drunk Turtles (30 points)}
 
 Take a look at the file {\tt drunk\_turtles.py}. You will find some code already provided that uses the class {\tt DrunkTurtle}, which inherits from the {\tt Turtle} class of your old friend, the {\tt turtle} module. You should implement this class. The provided code will animate them walking around aimlessly in the empty plains of the turtle world, step by step.
+
+% Task 3.1
 
 \subsection{The Constructor}
 
@@ -172,11 +188,9 @@ A {\tt DrunkTurtle} cannot walk in a straight line, but walks in random directio
 pete = DrunkTurtle(45, 20, ["Shoo", "wa", "da", "dub."])
 \end{pythoncode}
 
-\noindent Because all of these values need to be available by the methods we are going to define later on, you should store them in {\bf attributes}!
+\noindent Because all of these values need to be available by the methods we are going to define later on, you should store them in {\bf attributes} (keyword \texttt{self})!
 
-\vspace{1em}
-
-\noindent {\bf Bonus - only if you feel like you understand everything so far:} Think of which attributes (and methods from the next step) should be private and how you achieve that in Python.
+% Task 3.2
 
 \subsection{Methods}
 
@@ -185,12 +199,14 @@ Our {\tt DrunkTurtle} will need two methods: {\tt sing} and {\tt move}.
 \begin{itemize}
     \item {\tt sing} should take no arguments (besides {\tt self}), and should sing the next word in the song. "sing" in this context means to write the word to the screen at the turtle's current position. You can use the method {\tt write} for that, which {\tt DrunkTurtle} automatically inherits from {\tt Turtle}. You will need to think of a way how {\tt sing} can keep track of where it is in the song.
 
-    \item {\tt move} should also take no arguments. It should rotate the turtle by a random angle from the interval $[-random\_angle, random\_angle]$ and then move it by {\tt step\_size}. The {\tt turtle} functions {\tt forward} and {\tt left} you already know are also available as {\it methods} of {\tt Turtle} objects. It should also call {\tt sing}, because we want to sing one word each step.
+    \item {\tt move} should also take no arguments. It should rotate the turtle by a random angle from the interval $[-max\_angle, max\_angle]$ and then move it by {\tt step\_size}. The {\tt turtle} functions {\tt forward} and {\tt left} you already know are also available as {\it methods} of {\tt Turtle} objects. It should also call {\tt sing}, because we want to sing one word each step.
 \end{itemize}
+
+% Task 3.3
 
 \subsection{Instances}
 
-Once your class is implemented, fill the two placeholders in the template script with instances of {\tt DrunkTurtle}. Experiment with the arguments and see how they affect the turtles' paths. When you run the script, something like this should unfold:
+Once your class is implemented, fill the two placeholders in the template script with instances of {\tt DrunkTurtle}. Experiment with the arguments and see how they affect the turtles' paths. When you run the script, something like this should unfold (of course you can choose different angles, step sizes and songs than in this example):
 
 \begin{center}
     \includegraphics[width=0.5\textwidth]{09_OOP/drunk_turtles.png}
@@ -203,6 +219,10 @@ Once your class is implemented, fill the two placeholders in the template script
 \end{solution}
 
 
+
+
+% Task 4
+
 \section{Thinking Outside the Box: Magic Methods (20 points)}
 
 A {\bf vector} can be described as a collection of numbers, e.g. $(3, 5, 1)$. In two-dimensional vectors (vectors which only have two elements), the first one is often referred to as $x$ and the second as $y$.
@@ -214,6 +234,10 @@ A {\bf vector} can be described as a collection of numbers, e.g. $(3, 5, 1)$. In
 \vspace{1em}
 
 \noindent We would like to use the magic method {\tt \_\_add\_\_} to achieve this behavior in Python. Complete the template of the class {\tt Vector2D} given below.
+
+\vspace{1em}
+
+\noindent \textbf{Remember:} \textit{Magic methods} or \textit{dunder methods} are methods that when implemented can be used in some implicit contexts. For example, if a class implements \texttt{\_\_add\_\_}, two instances of this class can be added using the inline operator \texttt{+}. You can identify magic methods by the double underscores surrounding them.
 
 \begin{enumerate}
     \item First, you need to implement the {\bf constructor}. It is given the $x$ and $y$ values of the vector, which we need to store in attributes.
@@ -231,7 +255,7 @@ class Vector2D:
 
     # ADD DUNDER METHOD __str__ HERE
 
-# testing
+# testing+
 u = Vector2D(12, 36)
 v = Vector2D(42, 43)
 
@@ -260,5 +284,11 @@ class Vector2D:
         return "Vector2D({}, {})".format(self.x, self.y)
     \end{pythoncode}
 \end{solution}
+
+
+
+% Bonus Task
+
+\section{Bonus Task: Iterator (1 bonus point)}
 
 \end{document}

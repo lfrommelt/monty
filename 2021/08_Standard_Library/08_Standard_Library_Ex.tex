@@ -323,14 +323,6 @@ To test our skills, we will implement a simplified formula for the increase in g
 
 \vspace{1em}
 
-\noindent \textit{Formulas taken from: } IPCC (2001) Radiative Forcing of Climate Change, in Climate Change 2001: The Scientific Basis. Contribution of Working Group 1 to the Third Assessment. Report of the Intergovernmental Panel on Climate Change, CUP, pp. 349-416
-
-\vspace{1em}
-
-\noindent \textit{CO2 values taken from: } Dr. Pieter Tans, NOAA/ESRL (www.esrl.noaa.gov/gmd/ccgg/trends/) and Dr. Ralph Keeling, Scripps Institution of Oceanography. \url{https://www.esrl.noaa.gov/gmd/ccgg/trends/data.html}
-
-\vspace{1em}
-
 \begin{solution}
 
 \begin{pythoncode}
@@ -383,6 +375,116 @@ def predict_increase(year):
     print("Projected temperature increase from 1970 to {}: {:.4f}".format(year, delta_T))
 
     
+\end{pythoncode}
+
+\end{solution}
+
+\section{Bonus Task: map, plot (1 bonus point)}
+
+This task will give a short impression on functional programming in python. For this, have a look at the build in function \texttt{map} at \href{https://docs.python.org/3/library/functions.html}{https://docs.python.org/3/library/functions.html}
+
+\vspace{1em}
+
+\noindent \textbf{Your task is to do the following:} 
+
+    \begin{enumerate}
+
+        \item Write a function \texttt{temp\_increase} that takes a number of hours as input and returns the increase in CO2 from 1970 until the given amount of hours. Again, assume that the average increase in CO2 per hour, that you have calculated in \textbf{4.1}, stays constant.
+        \item Write a function \texttt{plot\_increase} that takes a year as input and makes a lineplot. 
+        \item On the x-axis there have to be the hours, starting from zero in 1970 and then going onward until the given year is reached.
+        \item For calculating the y-values, you have to use \texttt{temp\_increase} and \texttt{map}.
+
+    \end{enumerate}
+
+\vspace{1em}
+
+\noindent \textbf{Example}:
+
+\begin{pythoncode}
+
+#plot the CO2 increase for every hour until 2100
+plot_increase(2100)
+
+\end{pythoncode}
+
+\includegraphics[width=10cm]{08_Standard_Library/temperature_2100.png}
+
+\vspace{1em}
+
+\noindent \textit{Formulas taken from: } IPCC (2001) Radiative Forcing of Climate Change, in Climate Change 2001: The Scientific Basis. Contribution of Working Group 1 to the Third Assessment. Report of the Intergovernmental Panel on Climate Change, CUP, pp. 349-416
+
+\vspace{1em}
+
+\noindent \textit{CO2 values taken from: } Dr. Pieter Tans, NOAA/ESRL (www.esrl.noaa.gov/gmd/ccgg/trends/) and Dr. Ralph Keeling, Scripps Institution of Oceanography. \url{https://www.esrl.noaa.gov/gmd/ccgg/trends/data.html}
+
+\vspace{1em}
+
+\begin{solution}
+
+\begin{pythoncode}
+
+import matplotlib.pyplot as plt
+from math import log
+import time
+
+#define our constants
+ALPHA = 5.35
+LAMBDA = 0.5
+
+#Here a non-pythonic notation was choosen, in order to stick to formula
+c_0 = 325.03
+c_1 = 415.88
+
+#The average increase in CO2 is assumed to be constant
+AVERAGE_INCREASE = (c_1 - c_0)/(time.time()/60/60)
+
+def temp_increase(hours):
+    """Calculates the increase in global temperature after a given
+    amount of hours, based on the formula from the exercise sheet and
+    under the assumption of a constant increase in CO2, given in
+    ppm/hour
+    """
+
+    """It is ok to access constants from within functions. This should
+    not be done with variables. Alternatively constants can be given as
+    default values for arguments
+    """
+    co2_increase = hours*AVERAGE_INCREASE
+    rad_forcing = ALPHA*log((c_0+co2_increase)/c_0)
+    return rad_forcing*LAMBDA
+
+def plot_increase(year):
+    """Plots the increase in temperature against the hours, that have
+    passed since 1/1/1970
+    """
+
+    #create x values: the hours that have passed
+    x = range(int((year-1970)*356.25*24))
+
+    #Use map in order to apply the function to every x value.
+    y = list(map(temp_increase, x))
+
+    #plot results
+    plt.plot(x,y)
+    plt.show()
+
+#select some year
+year = 2200
+
+#call function
+plot_increase(year)
+
+"""The same thing as an awkwardly long oneliner, that combines all
+functions in a so called lambda expression. Sticking to PEP makes
+readability even worse in this case, so just never do stuff like 
+this at home ;)
+"""
+plt.plot(range(int((year-1970)*356.25*24)), map(
+    lambda x: LAMBDA*(ALPHA*log((c_0 + AVERAGE_INCREASE*x)/c_0)),
+    range(int((year-1970)*356.25*24)))
+                                               ))
+plt.show()
+
 \end{pythoncode}
 
 \end{solution}
